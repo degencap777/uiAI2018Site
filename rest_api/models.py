@@ -37,6 +37,21 @@ class Team(models.Model):
         return self.name
 
 
+class Invitation(models.Model):
+    PENDING = 'PENDING'
+    ACCEPTED = 'ACCEPTED'
+    REJECTED = 'REJECTED'
+    STATUS_OPTIONS = (PENDING, ACCEPTED, REJECTED)
+
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_invitations')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_invitations')
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='invitations')
+    status = models.CharField(max_length=8, choices=((s, s) for s in STATUS_OPTIONS))
+
+    def __str__(self):
+        return '{} for {}'.format(self.receiver, self.team)
+
+
 class Settings(models.Model):
     key = models.CharField(max_length=32, primary_key=True)
     value = models.TextField(max_length=8192)
