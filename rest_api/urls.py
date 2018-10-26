@@ -5,4 +5,6 @@ from rest_api.views import *
 urlpatterns = [
     path('auth/', include('rest_framework.urls')),
     path('get_settings/', get_settings, name='get_settings'),
+    path('signup/', sign_up, name='sign_up'),
+    path('login/', sign_in, name='sign_in'),
 ]

@@ -1,4 +1,3 @@
-from os.path import join
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -13,6 +12,9 @@ class User(AbstractUser):
     institute = models.CharField(max_length=64)
     social_id = models.CharField(max_length=16)
     team = models.ForeignKey('Team', on_delete=models.DO_NOTHING, related_name='members', blank=True, null=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
     def __str__(self):
         return self.get_full_name()
