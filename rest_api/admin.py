@@ -11,7 +11,7 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class TeamAdmin(admin.ModelAdmin):
-    list_display = ['name', 'member1', 'member2', 'member3']
+    list_display = ['name', 'get_member1', 'get_member2', 'get_member3']
     search_fields = ['name']
 
 

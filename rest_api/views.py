@@ -1,11 +1,7 @@
-from django.contrib.auth import authenticate, login
 from rest_framework.status import *
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.password_validation import validate_password
-
 from rest_api.models import *
 
 
@@ -17,53 +13,134 @@ def get_settings(request):
 @api_view(['POST'])
 def sign_up(request):
     try:
-        validate_password(request.POST.get('password'))
-        user = User.objects.create_user(
-            username=request.POST.get('email'),
+        User.objects.create_user(
+            email=request.POST.get('email'),
+            password=request.POST.get('password'),
             first_name=request.POST.get('first_name'),
             last_name=request.POST.get('last_name'),
-            email=request.POST.get('email'),
             phone=request.POST.get('phone'),
             institute=request.POST.get('institute'),
             social_id=request.POST.get('social_id'),
         )
-        user.set_password(request.POST.get('password'))
-        user.save()
-        return Response(status=HTTP_201_CREATED)
+        return Response({'message': 'ثبت‌نام با موفقیت انجام شد.'}, status=HTTP_201_CREATED)
     except BaseException as e:
-        return Response(status=HTTP_400_BAD_REQUEST)
+        return Response({'message': e}, status=HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_info(request):
-    pass
-
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_team_info(request):
-    pass
-
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def send_team_request(request):
-    pass
+    user = request.user
+    return Response(user.get_dict())
 
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def edit_user_info(request):
-    pass
+    try:
+        request.user.email = request.POST.get('email')
+        request.user.password = request.POST.get('password')
+        request.user.first_name = request.POST.get('first_name')
+        request.user.last_name = request.POST.get('last_name')
+        request.user.phone = request.POST.get('phone')
+        request.user.institute = request.POST.get('institute')
+        request.user.social_id = request.POST.get('social_id')
+        return Response({'message': 'اطلاعات شما ویرایش شد.'})
+    except BaseException as e:
+        return Response({'message': e}, status=HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_team(request):
+    if request.user.team is not None:
+        return Response({'message': 'شما در یک تیم عضو هستید و نمی‌توانید تیم جدیدی ایجاد کنید.'},
+                        status=HTTP_403_FORBIDDEN)
+    team_name = request.POST.get('name')
+    if not team_name:
+        return Response({'message': 'نام تیم نمی‌تواند خالی باشد.'}, status=HTTP_400_BAD_REQUEST)
+    team = Team(name=team_name)
+    team.save()
+    request.user.team = team
+    request.user.save()
+    return Response({'message': 'تیم {} با موفقیت ساخته شد.'.format(team.name)}, status=HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_team_info(request):
+    if not request.user.team:
+        return Response({'message': 'شما در تیمی عضو نیستید.'}, status=HTTP_404_NOT_FOUND)
+    return Response(request.user.team.get_dict())
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def send_team_invitation(request):
+    if not request.user.team:
+        return Response({'message': 'شما در تیمی عضو نیستید.'}, status=HTTP_404_NOT_FOUND)
+    receiver_email = request.POST.get('email')
+    try:
+        receiver = User.objects.get(email=receiver_email)
+        TeamInvitation(
+            sender=request.user,
+            receiver=receiver,
+            team=request.user.team,
+        ).save()
+        return Response({'message': 'دعوت‌نامه به کاربر مورد نظر ارسال شد.'}, status=HTTP_201_CREATED)
+    except User.DoesNotExist:
+        return Response({'message': 'کاربر با ایمیل مورد نظر پیدا نشد.'}, status=HTTP_404_NOT_FOUND)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def accept_team_invitation(request):
+    if request.user.team is not None:
+        return Response({'message': 'شما در یک تیم عضو هستید و نمی‌توانید دعوت‌نامه‌ای را بپذیرید.'},
+                        status=HTTP_403_FORBIDDEN)
+    invitation_id = request.POST.get('id')
+    if not invitation_id or not str(invitation_id).isdecimal():
+        return Response({'message': 'شماره دعوت‌نامه اشتباه است.'}, status=HTTP_400_BAD_REQUEST)
+    try:
+        invitation = TeamInvitation.objects.get(pk=int(invitation_id))
+    except TeamInvitation.DoesNotExist:
+        return Response({'message': 'دعوت‌نامه مورد نظر یافت نشد.'}, status=HTTP_404_NOT_FOUND)
+    if invitation.receiver != request.user:
+        return Response({'message': 'این دعوت‌نامه مربوط به شما نیست.'}, status=HTTP_403_FORBIDDEN)
+    if invitation.status != TeamInvitation.PENDING:
+        return Response({'message': 'دعوت‌نامه فاقد اعتبار است.'}, status=HTTP_403_FORBIDDEN)
+    request.user.team = invitation.team
+    request.user.save()
+    invitation.status = TeamInvitation.ACCEPTED
+    invitation.save()
+    return Response({'message': 'شما در تیم {} عضو شدید.'.format(invitation.team.name)})
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def reject_team_invitation(request):
+    invitation_id = request.POST.get('id')
+    if not invitation_id or not str(invitation_id).isdecimal():
+        return Response({'message': 'شماره دعوت‌نامه اشتباه است.'}, status=HTTP_400_BAD_REQUEST)
+    try:
+        invitation = TeamInvitation.objects.get(pk=int(invitation_id))
+    except TeamInvitation.DoesNotExist:
+        return Response({'message': 'دعوت‌نامه مورد نظر یافت نشد.'}, status=HTTP_404_NOT_FOUND)
+    if invitation.receiver != request.user:
+        return Response({'message': 'این دعوت‌نامه مربوط به شما نیست.'}, status=HTTP_403_FORBIDDEN)
+    if invitation.status != TeamInvitation.PENDING:
+        return Response({'message': 'دعوت‌نامه فاقد اعتبار است.'}, status=HTTP_403_FORBIDDEN)
+    invitation.status = TeamInvitation.REJECTED
+    invitation.save()
+    return Response({'message': 'دعوت به عضویت در تیم {} رد شد.'.format(invitation.team.name)})
 
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def leave_team(request):
-    pass
-
-
-@login_required
-def accept_invitation(request, invitation_id):
-    pass
+    if not request.user.team:
+        return Response({'message': 'شما در تیمی عضو نیستید.'}, status=HTTP_404_NOT_FOUND)
+    team_name = request.user.team.name
+    request.user.team = None
+    request.user.save()
+    return Response({'message': 'عضویت شما در تیم {} لغو شد.'.format(team_name)})
