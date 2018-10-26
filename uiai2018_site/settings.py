@@ -127,3 +127,14 @@ JET_THEMES = [
 JET_SIDE_MENU_COMPACT = True
 
 AUTH_USER_MODEL = 'rest_api.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'user': '1000/day'
+    }
+}
