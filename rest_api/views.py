@@ -8,7 +8,7 @@ from rest_api.models import *
 
 @api_view(['GET'])
 def get_settings(request):
-    pass
+    return Response(dict((s.key, s.value) for s in Settings.objects.all()))
 
 
 @api_view(['POST'])
