@@ -1,5 +1,7 @@
 from django.urls import path, include
 
+from rest_api.views import *
+
 urlpatterns = [
     path('auth/', include('rest_framework.urls')),
 ]
