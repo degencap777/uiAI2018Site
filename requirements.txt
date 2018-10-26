@@ -1,1 +1,5 @@
 django
+djangorestframework
+markdown
+django-filter
+jdatetime
