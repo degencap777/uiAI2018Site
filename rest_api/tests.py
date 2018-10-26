@@ -1,4 +1,4 @@
-from django.test import LiveServerTestCase
+from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIRequestFactory
 from rest_framework.test import force_authenticate
@@ -6,12 +6,12 @@ from rest_framework.test import force_authenticate
 from rest_api import models, views
 
 
-class APITests(LiveServerTestCase):
+class APITests(TestCase):
 
     def setUp(self):
         self.factory = APIRequestFactory()
         models.Settings(key='test_key', value='test_value').save()
-        self.admin = models.User(
+        self.admin = models.User.objects.create_user(
             username='pkazemi3@gmail.com',
             email='pkazemi3@gmail.com',
             password='pass1234',
@@ -21,7 +21,6 @@ class APITests(LiveServerTestCase):
             institute='University of Isfahan',
             social_id='1270001122',
         )
-        self.admin.save()
 
     def test_settings(self):
         request = self.factory.get(reverse('get_settings'))
@@ -55,18 +54,3 @@ class APITests(LiveServerTestCase):
         response = views.sign_up(request)
         self.assertEqual(response.status_code, 201)
         self.assertEqual(models.User.objects.filter(username='a@a.com').count(), 1)
-
-    def test_login(self):
-        data = {'email': 'test@test.com', 'password': 'pass1234'}
-        request = self.factory.post(reverse('sign_in'), data)
-        response = views.sign_in(request)
-        self.assertEqual(response.status_code, 400)
-        data = {'email': 'pkazemi3@gmail.com', 'password': 'wrongpassword1234'}
-        request = self.factory.post(reverse('sign_in'), data)
-        response = views.sign_in(request)
-        self.assertEqual(response.status_code, 400)
-        data = {'email': self.admin.username, 'password': self.admin.password}
-        request = self.factory.post(reverse('sign_in'), data)
-        response = views.sign_in(request)
-        print(response.data)
-        self.assertEqual(response.status_code, 200)

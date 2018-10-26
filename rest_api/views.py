@@ -18,9 +18,8 @@ def get_settings(request):
 def sign_up(request):
     try:
         validate_password(request.POST.get('password'))
-        user = User(
+        user = User.objects.create_user(
             username=request.POST.get('email'),
-            password=request.POST.get('password'),
             first_name=request.POST.get('first_name'),
             last_name=request.POST.get('last_name'),
             email=request.POST.get('email'),
@@ -28,26 +27,11 @@ def sign_up(request):
             institute=request.POST.get('institute'),
             social_id=request.POST.get('social_id'),
         )
+        user.set_password(request.POST.get('password'))
         user.save()
         return Response(status=HTTP_201_CREATED)
     except BaseException as e:
         return Response(status=HTTP_400_BAD_REQUEST)
-
-
-@api_view(['POST'])
-def sign_in(request):
-    username = request.POST.get('email')
-    password = request.POST.get('password')
-    try:
-        user = User.objects.get(username=username)
-    except User.DoesNotExist:
-        return Response({'message': 'نام کاربری یا رمز اشتباه است.'}, status=HTTP_400_BAD_REQUEST)
-    if user.password != password:
-        return Response({'message': 'نام کاربری یا رمز اشتباه است.'}, status=HTTP_400_BAD_REQUEST)
-    if not user.is_active:
-        return Response({'message': 'حساب کاربری غیرفعال است.'}, status=HTTP_400_BAD_REQUEST)
-    login(request, user)
-    return Response(status=HTTP_200_OK)
 
 
 @api_view(['GET'])
