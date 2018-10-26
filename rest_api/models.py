@@ -35,3 +35,15 @@ class Team(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Settings(models.Model):
+    key = models.CharField(max_length=32, primary_key=True)
+    value = models.TextField(max_length=8192)
+
+    def __str__(self):
+        return self.key
+
+    class Meta:
+        verbose_name = 'Settings'
+        verbose_name_plural = 'Settings'

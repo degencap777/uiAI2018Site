@@ -17,3 +17,4 @@ class TeamAdmin(admin.ModelAdmin):
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Team, TeamAdmin)
+admin.site.register(Settings)
