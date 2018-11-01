@@ -1,16 +1,19 @@
 from rest_framework.status import *
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view, permission_classes
+
 from rest_api.models import *
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def get_settings(request):
     return Response(dict((s.key, s.value) for s in Settings.objects.all()))
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def sign_up(request):
     try:
         User.objects.create_user(
@@ -28,14 +31,12 @@ def sign_up(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
 def get_user_info(request):
     user = request.user
     return Response(user.get_dict())
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def edit_user_info(request):
     try:
         request.user.email = request.data.get('email')
@@ -47,11 +48,10 @@ def edit_user_info(request):
         request.user.social_id = request.data.get('social_id')
         return Response({'message': 'اطلاعات شما ویرایش شد.'})
     except BaseException as e:
-        return Response({'message': e}, status=HTTP_400_BAD_REQUEST)
+        return Response({'message': str(e)}, status=HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def create_team(request):
     if request.user.team is not None:
         return Response({'message': 'شما در یک تیم عضو هستید و نمی‌توانید تیم جدیدی ایجاد کنید.'},
@@ -67,7 +67,6 @@ def create_team(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
 def get_team_info(request):
     if not request.user.team:
         return Response({'message': 'شما در تیمی عضو نیستید.'}, status=HTTP_404_NOT_FOUND)
@@ -75,7 +74,6 @@ def get_team_info(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def send_team_invitation(request):
     if not request.user.team:
         return Response({'message': 'شما در تیمی عضو نیستید.'}, status=HTTP_404_NOT_FOUND)
@@ -93,7 +91,6 @@ def send_team_invitation(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def accept_team_invitation(request):
     if request.user.team is not None:
         return Response({'message': 'شما در یک تیم عضو هستید و نمی‌توانید دعوت‌نامه‌ای را بپذیرید.'},
@@ -117,7 +114,6 @@ def accept_team_invitation(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def reject_team_invitation(request):
     invitation_id = request.data.get('id')
     if not invitation_id or not str(invitation_id).isdecimal():
@@ -136,7 +132,6 @@ def reject_team_invitation(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def leave_team(request):
     if not request.user.team:
         return Response({'message': 'شما در تیمی عضو نیستید.'}, status=HTTP_404_NOT_FOUND)
