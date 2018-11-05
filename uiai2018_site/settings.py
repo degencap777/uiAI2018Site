@@ -6,7 +6,7 @@ SECRET_KEY = '_t&%$%vnb&)2d+q0(spwdap5$yzg23_q9cfhmeg#%-au2eu3jv'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'acm.ui.ac.ir']
 
 INSTALLED_APPS = [
     'jet.dashboard',
