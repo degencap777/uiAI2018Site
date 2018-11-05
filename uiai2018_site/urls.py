@@ -7,7 +7,7 @@ urlpatterns = [
     path('jet/', include('jet.urls', 'jet')),
     path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     path('admin/', admin.site.urls),
-    path('', include('main.urls')),
+    path('uiai2018/', include('main.urls')),
     path('api/', include('rest_api.urls')),
 ]
 
