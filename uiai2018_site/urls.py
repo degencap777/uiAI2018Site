@@ -4,11 +4,11 @@ from django.urls import path, include
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('jet/', include('jet.urls', 'jet')),
-    path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
-    path('admin/', admin.site.urls),
+    path('uiai2018/jet/', include('jet.urls', 'jet')),
+    path('uiai2018/jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
+    path('uiai2018/admin/', admin.site.urls),
     path('uiai2018/', include('main.urls')),
-    path('api/', include('rest_api.urls')),
+    path('uiai2018/api/', include('rest_api.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
