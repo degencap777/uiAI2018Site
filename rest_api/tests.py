@@ -35,7 +35,7 @@ class APITests(TestCase):
         response = views.get_settings(request)
         self.assertIn('test_key', response.data)
 
-    def test_signup_successful(self):
+    def test_signup(self):
         data = {
             "email": "pkazemi3@gmail.com",
             "password": "pass1234",
