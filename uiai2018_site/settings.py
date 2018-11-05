@@ -84,13 +84,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_URL = 'uiai2018/static/'
+STATIC_URL = '/uiai2018/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR)
 ]
 
-MEDIA_URL = 'uiai2018/media/'
+MEDIA_URL = '/uiai2018/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 JET_THEMES = [
