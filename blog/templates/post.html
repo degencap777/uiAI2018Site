@@ -7,7 +7,7 @@
 <body>
 <h1>{{ post.title }}</h1>
 <h4>{{ post.date }}</h4>
-<p>{{ post.text }}</p>
+{% autoescape off %}<p>{{ post.text }}</p>{% endautoescape %}
 <hr>
 <div>
     {% if messages %}
@@ -23,21 +23,25 @@
     {% endif %}
 
 </div>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% for field in comment_form %}
-        <p>
-            {{ field.label_tag }}
-            {{ field }}
-            {% if field.help_text %}
-                <small style="color: grey">{{ field.help_text }}</small>
-            {% endif %}
-            {% for error in field.errors %}
-                <p style="color: red">{{ error }}</p>
-            {% endfor %}
-    {% endfor %}
-    <button class="form-btn">ارسال</button>
-</form>
+{% if user.is_authenticated %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in comment_form %}
+            <p>
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                    <small style="color: grey">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                {% endfor %}
+        {% endfor %}
+        <button class="form-btn">ارسال</button>
+    </form>
+    {% else %}
+    <p>برای نظر دادن باید لاگین کرده باشید.</p>
+{% endif %}
 <hr>
 {% for comment in post.get_approved_comments %}
     <p>By {{ comment.user.get_full_name }} on {{ comment.date }}</p>
