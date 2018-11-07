@@ -92,11 +92,17 @@ class APITests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['name'], 'TableFlipperZ')
         self.assertIn(self.test_user1.email, response.data['members'])
-        request = self.factory.post(reverse('send_team_invitation'), data={'email': 'pkazemi76@yahoo.com'})
+        request = self.factory.post(reverse('send_team_invitation'), data={'email': self.test_user2.email})
         force_authenticate(request, self.test_user1)
         response = views.send_team_invitation(request)
         self.assertEqual(response.status_code, 201)
-        # todo: Complete tests
+        invitation_id = self.test_user2.received_invitations.first().pk
+        request = self.factory.post(reverse('accept_team_invitation'), data={'id': invitation_id})
+        force_authenticate(request, self.test_user2)
+        response = views.accept_team_invitation(request)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.test_user1, self.test_user1.team.get_member1())
+        self.assertEqual(self.test_user2, self.test_user1.team.get_member2())
 
 
 class UtilTests(TestCase):
