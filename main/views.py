@@ -26,6 +26,7 @@ def sign_up(request):
             last_name=request.data.get('last_name'),
             phone=request.data.get('phone'),
             institute=request.data.get('institute'),
+            english_full_name=request.data.get('english_full_name')
         )
         return Response({'message': 'ثبت‌نام با موفقیت انجام شد.'}, status=HTTP_201_CREATED)
     except BaseException as e:
@@ -47,6 +48,8 @@ def edit_user_info(request):
         request.user.last_name = request.data.get('last_name')
         request.user.phone = request.data.get('phone')
         request.user.institute = request.data.get('institute')
+        request.user.english_full_name = request.data.get('english_full_name')
+        request.user.save()
         return Response({'message': 'اطلاعات شما ویرایش شد.'})
     except BaseException as e:
         return Response({'message': str(e)}, status=HTTP_400_BAD_REQUEST)
