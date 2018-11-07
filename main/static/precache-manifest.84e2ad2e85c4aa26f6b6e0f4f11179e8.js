@@ -4,8 +4,8 @@ self.__precacheManifest = [
     "url": "/uiai2018/static/main/static/static/media/stf12.495eb3dc.jpg"
   },
   {
-    "revision": "b8b20d62f780fa50ceef",
-    "url": "/uiai2018/static/main/static/static/css/main.703ae71b.chunk.css"
+    "revision": "643ffb0431a619a3705b",
+    "url": "/uiai2018/static/main/static/static/css/main.17235906.chunk.css"
   },
   {
     "revision": "11ef813ddc4c9ae17d99028f6132427a",
@@ -128,8 +128,8 @@ self.__precacheManifest = [
     "url": "/uiai2018/static/main/static/static/media/stf11.b64ca891.jpg"
   },
   {
-    "revision": "b8b20d62f780fa50ceef",
-    "url": "/uiai2018/static/main/static/static/js/main.b8b20d62.chunk.js"
+    "revision": "643ffb0431a619a3705b",
+    "url": "/uiai2018/static/main/static/static/js/main.643ffb04.chunk.js"
   },
   {
     "revision": "729cb60f09d0a4e88e6289cd384f07f1",
@@ -256,7 +256,7 @@ self.__precacheManifest = [
     "url": "/uiai2018/static/main/static/static/css/1.65101942.chunk.css"
   },
   {
-    "revision": "59044d18ed1b46c80feac334c4ead029",
+    "revision": "40374d5e947afeffea7f5bbe18936e65",
     "url": "/uiai2018/static/main/static/index.html"
   }
 ];
