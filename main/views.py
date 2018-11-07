@@ -143,4 +143,4 @@ def leave_team(request):
 
 
 def landing(request):
-    return render(request, 'main/../main/templates/index.html')
+    return render(request, 'index.html')
