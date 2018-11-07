@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('uiai2018/jet/', include('jet.urls', 'jet')),
     path('uiai2018/jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
+    path('uiai2018/captcha/', include('captcha.urls')),
     path('uiai2018/admin/', admin.site.urls),
     path('uiai2018/', include('main.urls')),
     path('uiai2018/api/', include('rest_api.urls')),

@@ -18,7 +18,10 @@ class Post(models.Model):
 
     @property
     def approved_comment_count(self):
-        return self.comments.filter(approved=True).count()
+        return self.get_approved_comments().count()
+
+    def get_approved_comments(self):
+        return self.comments.filter(approved=True)
 
 
 class Comment(models.Model):

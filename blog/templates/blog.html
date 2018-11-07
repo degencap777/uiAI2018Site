@@ -6,7 +6,7 @@
 </head>
 <body>
 {% for post in posts %}
-    <h1>{{ post.title }}</h1>
+    <h1><a href="{% url 'view_post' pk=post.pk %}">{{ post.title }}</a></h1>
     <p>{{ post.summary }}</p>
     <p>Date = {{ post.date }}, Comments = {{ post.approved_comment_count }}</p>
 {% endfor %}

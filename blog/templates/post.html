@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>{{ post.title }}</h1>
+<h4>{{ post.date }}</h4>
+<p>{{ post.text }}</p>
+<hr>
+<div>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li style="color:
+                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} red
+                        {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %} green
+                        {% else %} black
+                        {% endif %};">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+</div>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in comment_form %}
+        <p>
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.help_text %}
+                <small style="color: grey">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+                <p style="color: red">{{ error }}</p>
+            {% endfor %}
+    {% endfor %}
+    <button class="form-btn">ارسال</button>
+</form>
+<hr>
+{% for comment in post.get_approved_comments %}
+    <p>By {{ comment.user.get_full_name }} on {{ comment.date }}</p>
+    <p>{{ comment.text }}</p>
+{% endfor %}
+</body>
+</html>
