@@ -16,6 +16,8 @@ def get_settings(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def sign_up(request):
+    if User.objects.filter(email=request.data.get('email')).count() == 1:
+        return Response({'message': 'کاربری با این ایمیل قبلاً ثبت‌نام کرده.'}, status=HTTP_400_BAD_REQUEST)
     try:
         User.objects.create_user(
             email=request.data.get('email'),
