@@ -2,7 +2,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 
-from rest_api import upload_filenames
+from main import upload_filenames
 
 
 class UserManager(BaseUserManager):

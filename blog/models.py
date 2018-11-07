@@ -1,6 +1,6 @@
 from django.db import models
 
-from rest_api.models import User
+from main.models import User
 
 
 class Post(models.Model):

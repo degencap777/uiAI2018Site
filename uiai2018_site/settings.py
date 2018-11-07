@@ -20,9 +20,8 @@ INSTALLED_APPS = [
     'captcha',
     'django_summernote',
     'rest_framework',
-    'rest_api',
-    'blog',
     'main',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -132,7 +131,7 @@ JET_THEMES = [
 
 JET_SIDE_MENU_COMPACT = True
 
-AUTH_USER_MODEL = 'rest_api.User'
+AUTH_USER_MODEL = 'main.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_CLASSES': (

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from rest_api.models import *
+from main.models import *
 
 
 class UserAdmin(admin.ModelAdmin):

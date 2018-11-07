@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework.test import APIRequestFactory
 from rest_framework.test import force_authenticate
 
-from rest_api import models, views
+from main import models, views
 
 
 class APITests(TestCase):
