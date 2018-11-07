@@ -29,7 +29,7 @@ def sign_up(request):
             english_full_name=request.data.get('english_full_name')
         )
         return Response({'message': 'ثبت‌نام با موفقیت انجام شد.'}, status=HTTP_201_CREATED)
-    except BaseException as e:
+    except ValidationError as e:
         return Response({'message': str(e)}, status=HTTP_400_BAD_REQUEST)
 
 
@@ -50,7 +50,7 @@ def edit_user_info(request):
         request.user.english_full_name = request.data.get('english_full_name')
         request.user.save()
         return Response({'message': 'اطلاعات شما ویرایش شد.'})
-    except BaseException as e:
+    except ValidationError as e:
         return Response({'message': str(e)}, status=HTTP_400_BAD_REQUEST)
 
 

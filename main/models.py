@@ -1,13 +1,17 @@
 from django.contrib.auth.password_validation import validate_password
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.core.exceptions import ValidationError
 
 from main import upload_filenames, validators
 
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password, first_name, last_name, english_full_name, phone, institute):
-        validate_password(password)
+        try:
+            validate_password(password)
+        except ValidationError:
+            raise ValidationError('گذرواژه انتخاب شده به اندازه کافی امن نیست.')
         user = self.model(
             email=email,
             first_name=first_name,
