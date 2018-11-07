@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'captcha',
+    'django_summernote',
     'rest_framework',
     'rest_api',
     'blog',
@@ -149,3 +150,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     )
 }
+
+SUMMERNOTE_THEME = 'bs4'

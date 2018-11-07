@@ -8,6 +8,7 @@ urlpatterns = [
     path('uiai2018/jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     path('uiai2018/captcha/', include('captcha.urls')),
     path('uiai2018/admin/', admin.site.urls),
+    path('uiai2018/summernote/', include('django_summernote.urls')),
     path('uiai2018/', include('main.urls')),
     path('uiai2018/api/', include('rest_api.urls')),
     path('uiai2018/blog/', include('blog.urls')),
