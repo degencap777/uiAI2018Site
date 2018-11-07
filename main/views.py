@@ -43,7 +43,6 @@ def get_user_info(request):
 def edit_user_info(request):
     try:
         request.user.email = request.data.get('email')
-        request.user.password = request.data.get('password')
         request.user.first_name = request.data.get('first_name')
         request.user.last_name = request.data.get('last_name')
         request.user.phone = request.data.get('phone')

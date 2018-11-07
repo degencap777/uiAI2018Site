@@ -14,17 +14,19 @@ class APITests(TestCase):
         models.Settings(key='test_key', value='test_value').save()
         self.test_user1 = models.User.objects.create_user(
             email='pkazemi3@gmail.com',
-            password='pkazemi1376',
+            password='pkazemi1376safe',
             first_name='Parham',
             last_name='Kazemi',
             phone='09130001122',
             institute='University of Isfahan',
+            english_full_name='Parham Kazemi'
         )
         self.test_user2 = models.User.objects.create_user(
             email='pkazemi76@yahoo.com',
             password='pkazemi1376',
             first_name='Test',
             last_name='User',
+            english_full_name='Test User',
             phone='09139998877',
             institute='University of Isfahan',
         )
@@ -42,6 +44,7 @@ class APITests(TestCase):
             "last_name": "Kazemi",
             "phone": "09131002030",
             "institute": "University of Isfahan",
+            "english_full_name": "Parham Kazemi"
         }
         request = self.factory.post(reverse('sign_up'), data)
         response = views.sign_up(request)
@@ -55,7 +58,11 @@ class APITests(TestCase):
         request = self.factory.post(reverse('sign_up'), data)
         response = views.sign_up(request)
         self.assertEqual(response.status_code, 400, 'Weak password allowed')
-        data['password'] = 'pkazemi1376'
+        data.update({'english_full_name': 'پرهام کاظمی'})
+        request = self.factory.post(reverse('sign_up'), data)
+        response = views.sign_up(request)
+        self.assertEqual(response.status_code, 400, 'Non-English name allowed')
+        data.update({'english_full_name': 'Parham Kazemi', 'password': 'securePass1234'})
         request = self.factory.post(reverse('sign_up'), data)
         response = views.sign_up(request)
         self.assertEqual(response.status_code, 201)
@@ -97,19 +104,25 @@ class UtilTests(TestCase):
     def test_team_name_regex_valid(self):
         test_cases = ['TableFlipperZ', 'RandomTeam123', 'team_name']
         for name in test_cases:
-            is_valid = True
             try:
                 validators.team_name_validator(name)
             except ValidationError:
-                is_valid = False
-            self.assertTrue(is_valid)
+                self.fail('Validation failed')
 
     def test_team_name_regex_invalid(self):
         test_cases = ['نام تیم', 'نباید', 'فارسی', 'باشد123_', 'team-name', 'team@name', 'team:name']
         for name in test_cases:
-            is_valid = True
+            self.assertRaises(ValidationError, validators.team_name_validator, name)
+
+    def test_english_name_regex_valid(self):
+        test_cases = ['Parham Kazemi', 'Parham', 'Kazemi', 'parham kazemi']
+        for name in test_cases:
             try:
-                validators.team_name_validator(name)
+                validators.english_string_validator(name)
             except ValidationError:
-                is_valid = False
-            self.assertFalse(is_valid)
+                self.fail('Validation failed')
+
+    def test_english_name_regex_invalid(self):
+        test_cases = ['پرهام کاظمی', 'Parham کاظمی', 'Parham_Kazemi', 'Parham123']
+        for name in test_cases:
+            self.assertRaises(ValidationError, validators.english_string_validator, name)

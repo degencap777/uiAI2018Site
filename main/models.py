@@ -6,7 +6,7 @@ from main import upload_filenames, validators
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password, first_name, last_name, phone, institute):
+    def create_user(self, email, password, first_name, last_name, english_full_name, phone, institute):
         validate_password(password)
         user = self.model(
             email=email,
@@ -14,12 +14,13 @@ class UserManager(BaseUserManager):
             last_name=last_name,
             phone=phone,
             institute=institute,
+            english_full_name=english_full_name,
         )
         user.set_password(password)
         user.save()
         return user
 
-    def create_superuser(self, email, password, first_name, last_name, phone, institute):
+    def create_superuser(self, email, password, first_name, last_name, english_full_name, phone, institute):
         user = self.create_user(
             email=email,
             password=password,
@@ -27,6 +28,7 @@ class UserManager(BaseUserManager):
             last_name=last_name,
             phone=phone,
             institute=institute,
+            english_full_name=english_full_name,
         )
         user.is_superuser = True
         user.is_staff = True
@@ -56,6 +58,7 @@ class User(AbstractUser):
             'email': self.email,
             'first_name': self.first_name,
             'last_name': self.last_name,
+            'english_full_name': self.english_full_name,
             'institute': self.institute,
             'phone': self.phone,
             'sent_invitations': [invitation.get_dict() for invitation in self.sent_invitations.all()],
