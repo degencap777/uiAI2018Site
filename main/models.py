@@ -12,6 +12,10 @@ class UserManager(BaseUserManager):
             validate_password(password)
         except ValidationError:
             raise ValidationError('گذرواژه انتخاب شده به اندازه کافی امن نیست.')
+        if User.objects.filter(email=email).count() == 1:
+            raise ValidationError('کاربری با این ایمیل قبلاً ثبت‌نام کرده است.')
+        validators.phone_number_validator(phone)
+        validators.english_string_validator(english_full_name)
         user = self.model(
             email=email,
             first_name=first_name,

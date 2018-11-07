@@ -142,6 +142,6 @@ class UtilTests(TestCase):
                 self.fail('Validation failed')
 
     def test_phone_regex_invalid(self):
-        test_cases = ['091311122334', '00989130001122', '9130001122', '+989131112233', '130001122']
+        test_cases = ['091311122334', '00989130001122', '9130001122', '+989131112233', '130001122', 'telephone']
         for number in test_cases:
             self.assertRaises(ValidationError, validators.phone_number_validator, number)

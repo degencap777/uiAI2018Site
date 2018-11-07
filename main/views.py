@@ -16,8 +16,6 @@ def get_settings(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def sign_up(request):
-    if User.objects.filter(email=request.data.get('email')).count() == 1:
-        return Response({'message': 'کاربری با این ایمیل قبلاً ثبت‌نام کرده است.'}, status=HTTP_400_BAD_REQUEST)
     try:
         User.objects.create_user(
             email=request.data.get('email'),
@@ -62,10 +60,14 @@ def create_team(request):
     team_name = request.data.get('name')
     if not team_name:
         return Response({'message': 'نام تیم نمی‌تواند خالی باشد.'}, status=HTTP_400_BAD_REQUEST)
-    team = Team(name=team_name)
-    team.save()
-    request.user.team = team
-    request.user.save()
+    try:
+        validators.team_name_validator(team_name)
+        team = Team(name=team_name)
+        team.save()
+        request.user.team = team
+        request.user.save()
+    except ValidationError as e:
+        return Response({'message': str(e)}, status=HTTP_400_BAD_REQUEST)
     return Response({'message': 'تیم {} با موفقیت ساخته شد.'.format(team.name)}, status=HTTP_201_CREATED)
 
 
