@@ -1,8 +1,11 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style href="{% static 'blog/static/styles.css' %}"></style>
 </head>
 <body>
 {% for post in posts %}
