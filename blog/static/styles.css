@@ -33,7 +33,7 @@ img {
   background: url(./images/bgPattern.jpg), #191919;
   background-blend-mode: soft-light;
 }
-.hero h1 {
+.hero * {
   color: #fff;
   text-shadow: 0px 0px 55px hsl(217, 100%, 54%);
   font-size: 3rem;
@@ -68,8 +68,92 @@ img {
   text-decoration: underline;
 }
 
+.post-full-title {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.comments-title {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+  padding: 0 2rem 5px 0;
+  border-bottom: 1px solid hsla(217, 100%, 54%, 50%);
+}
+
+.comment {
+  margin: 0 0 1rem;
+  padding: 0.5rem 2rem;
+  border: 1px solid #ddd;
+  border-right: 3px solid  hsl(217, 100%, 54%);
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2); 
+  background: #fff;
+}
+.comment header h5 {
+  margin: 1rem 0 0;
+  font-size: 1.1rem;
+}
+.comment header time {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.form-card h4 {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+}
+.comment-form {
+  display: flex;
+  flex-direction: column;
+}
+.comment-form div {
+  margin: 0 0 10px;
+}
+.comment-form #id_text {
+  width: 100%;
+  vertical-align: middle;
+  resize: none;
+  height: 150px;
+  border: 1px solid #aaa;
+  font-family: 'Vazir', sans-serif;
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 4px;
+}
+.comment-form .captcha {
+  width: 105px;
+}
+.comment-form #id_captcha_1 {
+  border: 1px solid #aaa;
+  font-family: 'Vazir', sans-serif;
+  font-size: 1rem;
+  max-width: 100px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.form-btn {
+  align-self: flex-end;
+  font-size: 1rem;
+  font-family: 'Vazir', sans-serif;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 4px;
+  background: hsl(217, 100%, 54%);
+  color: #fff;
+  cursor: pointer;
+  transition: box-shadow 0.23s;
+}
+
 @media screen and (max-width: 768px) {
-  .hero h1 {
+  .hero * {
     font-size: 2.5rem;
+  }
+  .post-full-title {
+    font-size: 1.5rem;
+  }
+
+  .form-card {
+    padding: 1rem;
   }
 }
