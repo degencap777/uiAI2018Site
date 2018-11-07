@@ -1,6 +1,6 @@
 {
-  "short_name": "UIAI2018",
-  "name": "دومین دوره مسابقات چالشی هوش مصنوعی دانشگاه اصفهان",
+  "short_name": "React App",
+  "name": "Create React App Sample",
   "icons": [
     {
       "src": "favicon.ico",
