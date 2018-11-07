@@ -151,4 +151,9 @@ REST_FRAMEWORK = {
     )
 }
 
+SUMMERNOTE_CONFIG = {
+    'summernote': {
+        'airMode': False,
+    },
+}
 SUMMERNOTE_THEME = 'bs4'
