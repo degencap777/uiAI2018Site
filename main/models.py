@@ -36,8 +36,9 @@ class UserManager(BaseUserManager):
 
 class User(AbstractUser):
     username = None
-    first_name = models.CharField(max_length=32)
-    last_name = models.CharField(max_length=32)
+    first_name = models.CharField(max_length=16)
+    last_name = models.CharField(max_length=16)
+    english_full_name = models.CharField(max_length=32)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=16)
     institute = models.CharField(max_length=64)
@@ -63,7 +64,7 @@ class User(AbstractUser):
 
 
 class Team(models.Model):
-    name = models.CharField(max_length=32, unique=True, validators=[validators.team_name_validator])
+    name = models.CharField(max_length=16, unique=True, validators=[validators.team_name_validator])
     logo = models.ImageField(upload_to=upload_filenames.team_logo, default='default_team_logo.png')
 
     def get_member1(self):
