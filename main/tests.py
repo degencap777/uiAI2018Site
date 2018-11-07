@@ -1,9 +1,10 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.core.exceptions import ValidationError
 from rest_framework.test import APIRequestFactory
 from rest_framework.test import force_authenticate
 
-from main import models, views
+from main import models, views, validators
 
 
 class APITests(TestCase):
@@ -18,7 +19,6 @@ class APITests(TestCase):
             last_name='Kazemi',
             phone='09130001122',
             institute='University of Isfahan',
-            social_id='1270001122',
         )
         self.test_user2 = models.User.objects.create_user(
             email='pkazemi76@yahoo.com',
@@ -27,7 +27,6 @@ class APITests(TestCase):
             last_name='User',
             phone='09139998877',
             institute='University of Isfahan',
-            social_id='1279998877',
         )
 
     def test_settings(self):
@@ -43,7 +42,6 @@ class APITests(TestCase):
             "last_name": "Kazemi",
             "phone": "09131002030",
             "institute": "University of Isfahan",
-            "social_id": "12345",
         }
         request = self.factory.post(reverse('sign_up'), data)
         response = views.sign_up(request)
@@ -92,3 +90,26 @@ class APITests(TestCase):
         response = views.send_team_invitation(request)
         self.assertEqual(response.status_code, 201)
         # todo: Complete tests
+
+
+class UtilTests(TestCase):
+
+    def test_team_name_regex_valid(self):
+        test_cases = ['TableFlipperZ', 'RandomTeam123', 'team_name']
+        for name in test_cases:
+            is_valid = True
+            try:
+                validators.team_name_validator(name)
+            except ValidationError:
+                is_valid = False
+            self.assertTrue(is_valid)
+
+    def test_team_name_regex_invalid(self):
+        test_cases = ['نام تیم', 'نباید', 'فارسی', 'باشد123_', 'team-name', 'team@name', 'team:name']
+        for name in test_cases:
+            is_valid = True
+            try:
+                validators.team_name_validator(name)
+            except ValidationError:
+                is_valid = False
+            self.assertFalse(is_valid)

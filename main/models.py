@@ -2,32 +2,30 @@ from django.contrib.auth.password_validation import validate_password
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 
-from main import upload_filenames
+from main import upload_filenames, validators
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password, first_name, last_name, phone, social_id, institute):
+    def create_user(self, email, password, first_name, last_name, phone, institute):
         validate_password(password)
         user = self.model(
             email=email,
             first_name=first_name,
             last_name=last_name,
             phone=phone,
-            social_id=social_id,
             institute=institute,
         )
         user.set_password(password)
         user.save()
         return user
 
-    def create_superuser(self, email, password, first_name, last_name, phone, social_id, institute):
+    def create_superuser(self, email, password, first_name, last_name, phone, institute):
         user = self.create_user(
             email=email,
             password=password,
             first_name=first_name,
             last_name=last_name,
             phone=phone,
-            social_id=social_id,
             institute=institute,
         )
         user.is_superuser = True
@@ -41,7 +39,6 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
     email = models.EmailField(unique=True)
-    social_id = models.CharField(max_length=16)
     phone = models.CharField(max_length=16)
     institute = models.CharField(max_length=64)
     team = models.ForeignKey('Team', on_delete=models.DO_NOTHING, related_name='members', blank=True, null=True)
@@ -60,14 +57,13 @@ class User(AbstractUser):
             'last_name': self.last_name,
             'institute': self.institute,
             'phone': self.phone,
-            'social_id': self.social_id,
             'sent_invitations': [invitation.get_dict() for invitation in self.sent_invitations.all()],
             'received_invitations': [invitation.get_dict() for invitation in self.received_invitations.all()],
         }
 
 
 class Team(models.Model):
-    name = models.CharField(max_length=32, unique=True)
+    name = models.CharField(max_length=32, unique=True, validators=[validators.team_name_validator])
     logo = models.ImageField(upload_to=upload_filenames.team_logo, default='default_team_logo.png')
 
     def get_member1(self):

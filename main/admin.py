@@ -4,10 +4,10 @@ from main.models import *
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'email', 'phone', 'institute', 'social_id', 'team']
-    search_fields = ['first_name', 'last_name', 'email', 'phone', 'institute', 'social_id', 'team']
+    list_display = ['__str__', 'email', 'phone', 'institute', 'team']
+    search_fields = ['first_name', 'last_name', 'email', 'phone', 'institute', 'team']
     list_filter = ['institute', 'team']
-    fields = ['first_name', 'last_name', 'email', 'phone', 'institute', 'social_id', 'team']
+    fields = ['first_name', 'last_name', 'email', 'phone', 'institute', 'team']
 
 
 class TeamAdmin(admin.ModelAdmin):
