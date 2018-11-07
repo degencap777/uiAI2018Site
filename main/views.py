@@ -28,7 +28,7 @@ def sign_up(request):
         )
         return Response({'message': 'ثبت‌نام با موفقیت انجام شد.'}, status=HTTP_201_CREATED)
     except ValidationError as e:
-        return Response({'message': str(e)}, status=HTTP_400_BAD_REQUEST)
+        return Response({'message': str(e.message)}, status=HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -49,7 +49,7 @@ def edit_user_info(request):
         request.user.save()
         return Response({'message': 'اطلاعات شما ویرایش شد.'})
     except ValidationError as e:
-        return Response({'message': str(e)}, status=HTTP_400_BAD_REQUEST)
+        return Response({'message': str(e.message)}, status=HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -67,7 +67,7 @@ def create_team(request):
         request.user.team = team
         request.user.save()
     except ValidationError as e:
-        return Response({'message': str(e)}, status=HTTP_400_BAD_REQUEST)
+        return Response({'message': str(e.message)}, status=HTTP_400_BAD_REQUEST)
     return Response({'message': 'تیم {} با موفقیت ساخته شد.'.format(team.name)}, status=HTTP_201_CREATED)
 
 
