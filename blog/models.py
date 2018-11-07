@@ -5,6 +5,7 @@ from rest_api.models import User
 
 class Post(models.Model):
     title = models.CharField(max_length=64)
+    summary = models.TextField(max_length=1024)
     text = models.TextField(max_length=8192)
     date = models.DateTimeField(auto_now_add=True)
 
@@ -14,6 +15,10 @@ class Post(models.Model):
     @property
     def comment_count(self):
         return self.comments.all().count()
+
+    @property
+    def approved_comment_count(self):
+        return self.comments.filter(approved=True).count()
 
 
 class Comment(models.Model):
