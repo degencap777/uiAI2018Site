@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 from django.shortcuts import render
 from rest_framework.status import *
 from rest_framework.response import Response
