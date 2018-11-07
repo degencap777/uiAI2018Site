@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for post in posts %}
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.summary }}</p>
+    <p>Date = {{ post.date }}, Comments = {{ post.approved_comment_count }}</p>
+{% endfor %}
+</body>
+</html>

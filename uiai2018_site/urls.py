@@ -9,6 +9,7 @@ urlpatterns = [
     path('uiai2018/admin/', admin.site.urls),
     path('uiai2018/', include('main.urls')),
     path('uiai2018/api/', include('rest_api.urls')),
+    path('uiai2018/blog/', include('blog.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
