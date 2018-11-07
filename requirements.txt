@@ -6,3 +6,4 @@ jdatetime
 Pillow
 django-jet
 djangorestframework-simplejwt
+django-summernote
