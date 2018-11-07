@@ -132,3 +132,16 @@ class UtilTests(TestCase):
         test_cases = ['پرهام کاظمی', 'Parham کاظمی', 'Parham_Kazemi', 'Parham123']
         for name in test_cases:
             self.assertRaises(ValidationError, validators.english_string_validator, name)
+
+    def test_phone_regex_valid(self):
+        test_cases = ['09131112233', '09101234567', '09381112233']
+        for number in test_cases:
+            try:
+                validators.phone_number_validator(number)
+            except ValidationError:
+                self.fail('Validation failed')
+
+    def test_phone_regex_invalid(self):
+        test_cases = ['091311122334', '00989130001122', '9130001122', '+989131112233', '130001122']
+        for number in test_cases:
+            self.assertRaises(ValidationError, validators.phone_number_validator, number)

@@ -46,7 +46,7 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=16)
     english_full_name = models.CharField(max_length=32)
     email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=16)
+    phone = models.CharField(max_length=16, validators=[validators.phone_number_validator])
     institute = models.CharField(max_length=64)
     team = models.ForeignKey('Team', on_delete=models.DO_NOTHING, related_name='members', blank=True, null=True)
 
