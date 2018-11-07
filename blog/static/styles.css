@@ -1,0 +1,75 @@
+@import './fonts/font-face.css';
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Vazir', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #eee;
+}
+
+.wrapper {
+  max-width: 1216px;
+  margin: 0 auto;
+}
+
+img {
+  width: auto;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  min-height: 10vh;
+  background: url(./images/bgPattern.jpg), #191919;
+  background-blend-mode: soft-light;
+}
+.hero h1 {
+  color: #fff;
+  text-shadow: 0px 0px 55px hsl(217, 100%, 54%);
+  font-size: 3rem;
+}
+
+.postsSection {
+  padding: 5rem 10px;
+}
+
+.card {
+  margin: 0 0 1rem;
+  padding: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2); 
+  background: #fff;
+}
+.card header h2,
+.card header p {
+  margin: 0;
+}
+.card header p {
+  margin-top: 5px;
+  color: #666;
+}
+
+.card a {
+  color: hsl(217, 100%, 54%);
+  text-decoration: none;
+}
+.card a:hover {
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+}

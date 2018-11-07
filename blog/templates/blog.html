@@ -1,17 +1,35 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html dir="rtl" lang="fa-IR">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style href="{% static 'blog/static/styles.css' %}"></style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <title>بلاگ | دومین دوره مسابقات چالشی هوش مصنوعی دانشگاه اصفهان</title>
+    <link rel="stylesheet" href="{% static 'blog/static/styles.css' %}">
 </head>
+
 <body>
-{% for post in posts %}
-    <h1><a href="{% url 'view_post' pk=post.pk %}">{{ post.title }}</a></h1>
-    <p>{{ post.summary }}</p>
-    <p>Date = {{ post.date }}, Comments = {{ post.approved_comment_count }}</p>
-{% endfor %}
+    <section class=hero>
+        <h1>اخبار و مستندات مسابقه</h1>
+    </section>
+
+    <section class="postsSection">
+        <div class="wrapper">
+            {% for post in posts %}
+            <article class="card">
+                <header>
+                    <h2>
+                        <a href="{% url 'view_post' pk=post.pk %}">{{ post.title }}</a>
+                    </h2>
+                    <p>تاریخ: {{ post.date }} / نظرات: {{ post.approved_comment_count }}</p>
+                </header>
+                <p>{{ post.summary }}</p>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
 </body>
+
 </html>
