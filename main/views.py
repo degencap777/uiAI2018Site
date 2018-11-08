@@ -74,7 +74,7 @@ def create_team(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def get_team_info(request):
-    team_id = int(request.data.get('team_id'))
+    team_id = int(request.data.get('team_id', request.user.team.pk))
     try:
         team = Team.objects.get(pk=team_id)
         return Response(team.get_dict())
