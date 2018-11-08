@@ -24,4 +24,4 @@ def persian_name_validator(value):
     arabic_letters = '[\u0629\u0643\u0649-\u064B\u064D\u06D5]'
     regex = r'|'.join([spaces, persian_alphabet, arabic_letters])
     if re.match(r'^({})+$'.format(regex), value) is None:
-        raise ValidationError('عبارت وارد شده فارسی نیست.')
+        raise ValidationError('نام وارد شده فارسی نیست.')
