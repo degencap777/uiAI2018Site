@@ -100,8 +100,9 @@ class APITests(TestCase):
         force_authenticate(request, self.test_user1)
         response = views.send_team_invitation(request)
         self.assertEqual(response.status_code, 201)
-        invitation_id = self.test_user2.received_invitations.first().pk
-        request = self.factory.post(reverse('accept_team_invitation'), data={'id': invitation_id})
+        invitation = self.test_user2.received_invitations.first()
+        self.assertEqual(invitation.get_status_display(), 'در انتظار')
+        request = self.factory.post(reverse('accept_team_invitation'), data={'id': invitation.pk})
         force_authenticate(request, self.test_user2)
         response = views.accept_team_invitation(request)
         self.assertEqual(response.status_code, 200)

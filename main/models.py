@@ -126,7 +126,7 @@ class TeamInvitation(models.Model):
             'sender': self.sender.email,
             'receiver': self.receiver.email,
             'team_name': self.team.name,
-            'status': self.status,
+            'status': self.get_status_display(),
         }
 
 
