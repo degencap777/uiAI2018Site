@@ -15,8 +15,8 @@ class APITests(TestCase):
         self.test_user1 = models.User.objects.create_user(
             email='pkazemi3@gmail.com',
             password='pkazemi1376safe',
-            first_name='Parham',
-            last_name='Kazemi',
+            first_name='پرهام',
+            last_name='کاظمی',
             phone='09130001122',
             institute='University of Isfahan',
             english_full_name='Parham Kazemi'
@@ -24,8 +24,8 @@ class APITests(TestCase):
         self.test_user2 = models.User.objects.create_user(
             email='pkazemi76@yahoo.com',
             password='pkazemi1376',
-            first_name='Test',
-            last_name='User',
+            first_name='کاربر',
+            last_name='تست',
             english_full_name='Test User',
             phone='09139998877',
             institute='University of Isfahan',
@@ -40,8 +40,8 @@ class APITests(TestCase):
         data = {
             "email": "pkazemi3@gmail.com",
             "password": "pass1234",
-            "first_name": "Parham",
-            "last_name": "Kazemi",
+            "first_name": "پرهام",
+            "last_name": "کاظمی",
             "phone": "09131002030",
             "institute": "University of Isfahan",
             "english_full_name": "Parham Kazemi"
@@ -62,7 +62,11 @@ class APITests(TestCase):
         request = self.factory.post(reverse('sign_up'), data)
         response = views.sign_up(request)
         self.assertEqual(response.status_code, 400, 'Non-English name allowed')
-        data.update({'english_full_name': 'Parham Kazemi', 'password': 'securePass1234'})
+        data.update({'english_full_name': 'Parham Kazemi', 'first_name': 'Parham'})
+        request = self.factory.post(reverse('sign_up'), data)
+        response = views.sign_up(request)
+        self.assertEqual(response.status_code, 400, 'Non-Persian name allowed')
+        data.update({'first_name': 'پرهام', 'password': 'securePass1234'})
         request = self.factory.post(reverse('sign_up'), data)
         response = views.sign_up(request)
         self.assertEqual(response.status_code, 201)
@@ -107,41 +111,45 @@ class APITests(TestCase):
 
 class UtilTests(TestCase):
 
+    def _test_validator_valid(self, validator, test_cases):
+        for test in test_cases:
+            try:
+                validator(test)
+            except ValidationError:
+                self.fail('Validation for {} and string {} failed'.format(validator, test))
+
+    def _test_validator_invalid(self, validator, test_cases):
+        for test in test_cases:
+            self.assertRaises(ValidationError, validator, test)
+
     def test_team_name_regex_valid(self):
         test_cases = ['TableFlipperZ', 'RandomTeam123', 'team_name']
-        for name in test_cases:
-            try:
-                validators.team_name_validator(name)
-            except ValidationError:
-                self.fail('Validation failed')
+        self._test_validator_valid(validators.team_name_validator, test_cases)
 
     def test_team_name_regex_invalid(self):
         test_cases = ['نام تیم', 'نباید', 'فارسی', 'باشد123_', 'team-name', 'team@name', 'team:name']
-        for name in test_cases:
-            self.assertRaises(ValidationError, validators.team_name_validator, name)
+        self._test_validator_invalid(validators.team_name_validator, test_cases)
 
     def test_english_name_regex_valid(self):
         test_cases = ['Parham Kazemi', 'Parham', 'Kazemi', 'parham kazemi']
-        for name in test_cases:
-            try:
-                validators.english_string_validator(name)
-            except ValidationError:
-                self.fail('Validation failed')
+        self._test_validator_valid(validators.english_string_validator, test_cases)
 
     def test_english_name_regex_invalid(self):
         test_cases = ['پرهام کاظمی', 'Parham کاظمی', 'Parham_Kazemi', 'Parham123']
-        for name in test_cases:
-            self.assertRaises(ValidationError, validators.english_string_validator, name)
+        self._test_validator_invalid(validators.english_string_validator, test_cases)
 
     def test_phone_regex_valid(self):
         test_cases = ['09131112233', '09101234567', '09381112233']
-        for number in test_cases:
-            try:
-                validators.phone_number_validator(number)
-            except ValidationError:
-                self.fail('Validation failed')
+        self._test_validator_valid(validators.phone_number_validator, test_cases)
 
     def test_phone_regex_invalid(self):
         test_cases = ['091311122334', '00989130001122', '9130001122', '+989131112233', '130001122', 'telephone']
-        for number in test_cases:
-            self.assertRaises(ValidationError, validators.phone_number_validator, number)
+        self._test_validator_invalid(validators.phone_number_validator, test_cases)
+
+    def test_persian_names_valid(self):
+        test_cases = ['پرهام', 'پرهام کاظمی', 'پرهام کاظمی اصل', 'ك ي', 'ئ ؤ نیم‌فاصله']
+        self._test_validator_valid(validators.persian_name_validator, test_cases)
+
+    def test_persian_names_invalid(self):
+        test_cases = ['Parham', 'Parham Kazemi', 'پرهام Kazemi', 'پرهام۱۲۳', 'پرهام123']
+        self._test_validator_invalid(validators.persian_name_validator, test_cases)

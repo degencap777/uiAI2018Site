@@ -16,6 +16,8 @@ class UserManager(BaseUserManager):
             raise ValidationError('کاربری با این ایمیل قبلاً ثبت‌نام کرده است.')
         validators.phone_number_validator(phone)
         validators.english_string_validator(english_full_name)
+        validators.persian_name_validator(first_name)
+        validators.persian_name_validator(last_name)
         user = self.model(
             email=email,
             first_name=first_name,
@@ -29,17 +31,19 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password, first_name, last_name, english_full_name, phone, institute):
-        user = self.create_user(
+        if User.objects.filter(email=email).count() == 1:
+            raise ValidationError('کاربری با این ایمیل قبلاً ثبت‌نام کرده است.')
+        user = self.model(
             email=email,
-            password=password,
             first_name=first_name,
             last_name=last_name,
             phone=phone,
             institute=institute,
             english_full_name=english_full_name,
         )
-        user.is_superuser = True
+        user.set_password(password)
         user.is_staff = True
+        user.is_superuser = True
         user.save()
         return user
 
@@ -50,7 +54,7 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=16)
     english_full_name = models.CharField(max_length=32)
     email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=16, validators=[validators.phone_number_validator])
+    phone = models.CharField(max_length=16)
     institute = models.CharField(max_length=64)
     team = models.ForeignKey('Team', on_delete=models.DO_NOTHING, related_name='members', blank=True, null=True)
 
