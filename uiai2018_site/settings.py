@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django_summernote',
     'rest_framework',
     'main',
+    'user_panel',
     'blog',
 ]
 
@@ -131,7 +132,7 @@ JET_THEMES = [
 
 JET_SIDE_MENU_COMPACT = True
 
-AUTH_USER_MODEL = 'main.User'
+AUTH_USER_MODEL = 'user_panel.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_CLASSES': (

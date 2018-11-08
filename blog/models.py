@@ -1,6 +1,6 @@
 from django.db import models
 
-from main.models import User
+from user_panel.models import User
 
 
 class Post(models.Model):

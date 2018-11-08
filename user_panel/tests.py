@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from rest_framework.test import APIRequestFactory
 from rest_framework.test import force_authenticate
 
-from main import models, views, validators
+from user_panel import models, views, validators
 
 
 class APITests(TestCase):

@@ -5,5 +5,4 @@ __pycache__/
 venv/
 db.sqlite3
 media/upload/
-static
 */secret.py

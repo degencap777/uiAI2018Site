@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.exceptions import ValidationError
 
-from main import upload_filenames, validators
+from user_panel import upload_filenames, validators
 
 
 class UserManager(BaseUserManager):

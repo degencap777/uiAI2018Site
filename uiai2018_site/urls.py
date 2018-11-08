@@ -10,6 +10,7 @@ urlpatterns = [
     path('uiai2018/admin/', admin.site.urls),
     path('uiai2018/summernote/', include('django_summernote.urls')),
     path('uiai2018/', include('main.urls')),
+    path('uiai2018/api/', include('user_panel.urls')),
     path('uiai2018/blog/', include('blog.urls')),
 ]
 
