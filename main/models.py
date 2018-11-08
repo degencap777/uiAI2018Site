@@ -115,9 +115,9 @@ class TeamInvitation(models.Model):
     def get_dict(self):
         return {
             'id': self.pk,
-            'sender': self.sender,
-            'receiver': self.receiver,
-            'team': self.team,
+            'sender': self.sender.email,
+            'receiver': self.receiver.email,
+            'team_name': self.team.name,
             'status': self.status,
         }
 

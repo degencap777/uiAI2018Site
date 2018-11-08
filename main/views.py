@@ -72,10 +72,14 @@ def create_team(request):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def get_team_info(request):
-    if not request.user.team:
-        return Response({'message': 'شما در تیمی عضو نیستید.'}, status=HTTP_404_NOT_FOUND)
-    return Response(request.user.team.get_dict())
+    team_id = int(request.data.get('team_id'))
+    try:
+        team = Team.objects.get(pk=team_id)
+        return Response(team.get_dict())
+    except Team.DoesNotExist:
+        return Response({'message': 'تیم مورد نظر پیدا نشد.'}, status=HTTP_404_NOT_FOUND)
 
 
 @api_view(['POST'])
