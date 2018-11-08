@@ -74,6 +74,10 @@ def create_team(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def get_team_info(request):
+    if not request.user.is_authenticated and 'team_id' not in request.data:
+        return Response({'message': 'کد تیم مشخص نشده.'}, status=HTTP_400_BAD_REQUEST)
+    if request.user.is_authenticated and 'team_id' not in request.data and request.user.team is None:
+        return Response({'message': 'کاربر فاقد تیم می‌باشد.'}, status=HTTP_404_NOT_FOUND)
     team_id = int(request.data.get('team_id', request.user.team.pk))
     try:
         team = Team.objects.get(pk=team_id)
