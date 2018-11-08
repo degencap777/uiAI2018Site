@@ -1,13 +1,13 @@
 {
   "main.css": "/uiai2018/static/main/static/static/css/main.f841374d.chunk.css",
-  "main.js": "/uiai2018/static/main/static/static/js/main.a5346b1e.chunk.js",
-  "main.js.map": "/uiai2018/static/main/static/static/js/main.a5346b1e.chunk.js.map",
+  "main.js": "/uiai2018/static/main/static/static/js/main.17df71a9.chunk.js",
+  "main.js.map": "/uiai2018/static/main/static/static/js/main.17df71a9.chunk.js.map",
   "static/css/1.2423fd1d.chunk.css": "/uiai2018/static/main/static/static/css/1.2423fd1d.chunk.css",
   "static/js/1.2562166d.chunk.js": "/uiai2018/static/main/static/static/js/1.2562166d.chunk.js",
   "static/js/1.2562166d.chunk.js.map": "/uiai2018/static/main/static/static/js/1.2562166d.chunk.js.map",
   "runtime~main.js": "/uiai2018/static/main/static/static/js/runtime~main.2753d357.js",
   "runtime~main.js.map": "/uiai2018/static/main/static/static/js/runtime~main.2753d357.js.map",
-  "static/media/font-face.css": "/uiai2018/static/main/static/static/media/Vazir-Medium.25b78a6e.eot",
+  "static/media/font-face.css": "/uiai2018/static/main/static/static/media/Vazir-Medium.11ef813d.ttf",
   "static/media/default.png": "/uiai2018/static/main/static/static/media/default.f8d4a979.png",
   "static/media/u1.jpg": "/uiai2018/static/main/static/static/media/u1.e5e0521c.jpg",
   "static/media/u2.jpg": "/uiai2018/static/main/static/static/media/u2.1bf04d4c.jpg",
@@ -43,9 +43,9 @@
   "static/media/stf19.jpg": "/uiai2018/static/main/static/static/media/stf19.17fb4695.jpg",
   "static/media/stf21.jpg": "/uiai2018/static/main/static/static/media/stf21.90b0d97e.jpg",
   "static/media/Hero.module.css": "/uiai2018/static/main/static/static/media/bgPattern.80b6d398.jpg",
-  "static/css/1.2423fd1d.chunk.css.map": "/uiai2018/static/main/static/static/css/1.2423fd1d.chunk.css.map",
   "static/css/main.f841374d.chunk.css.map": "/uiai2018/static/main/static/static/css/main.f841374d.chunk.css.map",
+  "static/css/1.2423fd1d.chunk.css.map": "/uiai2018/static/main/static/static/css/1.2423fd1d.chunk.css.map",
   "index.html": "/uiai2018/static/main/static/index.html",
-  "precache-manifest.b6961d76e185654a3304926cddd78f94.js": "/uiai2018/static/main/static/precache-manifest.b6961d76e185654a3304926cddd78f94.js",
+  "precache-manifest.b9cfc9133536f9ee9edc82fe9e5ce164.js": "/uiai2018/static/main/static/precache-manifest.b9cfc9133536f9ee9edc82fe9e5ce164.js",
   "service-worker.js": "/uiai2018/static/main/static/service-worker.js"
 }
