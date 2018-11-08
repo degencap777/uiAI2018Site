@@ -19,7 +19,7 @@ class UserManager(BaseUserManager):
         validators.persian_name_validator(first_name)
         validators.persian_name_validator(last_name)
         user = self.model(
-            email=email,
+            email=str(email).lower(),
             first_name=first_name,
             last_name=last_name,
             phone=phone,
@@ -34,7 +34,7 @@ class UserManager(BaseUserManager):
         if User.objects.filter(email=email).count() == 1:
             raise ValidationError('کاربری با این ایمیل قبلاً ثبت‌نام کرده است.')
         user = self.model(
-            email=email,
+            email=str(email).lower(),
             first_name=first_name,
             last_name=last_name,
             phone=phone,
