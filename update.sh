@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+git pull
+workon uiai2018_site
 python manage.py makemigrations
 python manage.py migrate
 python manage.py collectstatic
