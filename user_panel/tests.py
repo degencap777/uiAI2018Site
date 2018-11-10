@@ -12,6 +12,7 @@ class APITests(TestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
         models.Settings(key='test_key', value='test_value').save()
+        models.Settings(key='version_client_python', value='94').save()
         self.test_user1 = models.User.objects.create_user(
             email='pkazemi3@gmail.com',
             password='pkazemi1376safe',
@@ -108,6 +109,11 @@ class APITests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.test_user1, self.test_user1.team.get_member1())
         self.assertEqual(self.test_user2, self.test_user1.team.get_member2())
+
+    def test_version_checking(self):
+        request = self.factory.get(reverse('get_version'), data={'name': 'client_python'})
+        response = views.get_version(request)
+        self.assertEqual(response.data['version'], '94')
 
 
 class UtilTests(TestCase):

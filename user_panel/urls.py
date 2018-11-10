@@ -9,6 +9,7 @@ urlpatterns = [
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('auth/', include('rest_framework.urls')),
     path('get_settings/', get_settings, name='get_settings'),
+    path('get_version/', get_version, name='get_version'),
     path('signup/', sign_up, name='sign_up'),
     path('user/info/', get_user_info, name='get_user_info'),
     path('user/edit/', edit_user_info, name='edit_user_info'),

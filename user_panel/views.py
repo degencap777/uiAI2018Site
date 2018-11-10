@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from rest_framework.status import *
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
@@ -151,3 +152,18 @@ def leave_team(request):
     request.user.team = None
     request.user.save()
     return Response({'message': 'عضویت شما در تیم {} لغو شد.'.format(team_name)})
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_version(request):
+    """
+    suggested names: server, client_python, client_java, client_cpp
+    """
+    requester = request.GET.get('name')
+    setting_key = 'version_{}'.format(requester)
+    try:
+        setting = Settings.objects.get(key=setting_key)
+        return Response({'version': setting.value})
+    except Settings.DoesNotExist:
+        return Response(status=HTTP_404_NOT_FOUND)
