@@ -130,11 +130,11 @@ class UtilTests(TestCase):
             self.assertRaises(ValidationError, validator, test)
 
     def test_team_name_regex_valid(self):
-        test_cases = ['TableFlipperZ', 'RandomTeam123', 'team_name']
+        test_cases = ['TableFlipperZ', 'RandomTeam123', 'team_name', 'Flip123_- ']
         self._test_validator_valid(validators.team_name_validator, test_cases)
 
     def test_team_name_regex_invalid(self):
-        test_cases = ['نام تیم', 'نباید', 'فارسی', 'باشد123_', 'team-name', 'team@name', 'team:name']
+        test_cases = ['نام تیم', 'نباید', 'فارسی', 'باشد123_', 'teamیname', 'team@name', 'team:name']
         self._test_validator_invalid(validators.team_name_validator, test_cases)
 
     def test_english_name_regex_valid(self):

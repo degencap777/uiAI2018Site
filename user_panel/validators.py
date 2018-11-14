@@ -3,8 +3,8 @@ from django.core.exceptions import ValidationError
 
 
 def team_name_validator(value):
-    if re.match(r'^[A-Za-z0-9_]+$', value) is None:
-        raise ValidationError('نام تیم نامعتبر است.')
+    if re.match(r'^[A-Za-z0-9 _-]+$', value) is None:
+        raise ValidationError('نام تیم فقط باید شامل حروف انگلیسی، اعداد، فاصله و یا کاراکترهای - و ـ باشد.')
 
 
 def english_string_validator(value):
