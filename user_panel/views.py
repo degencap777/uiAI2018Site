@@ -54,21 +54,25 @@ def edit_user_info(request):
 
 @api_view(['POST'])
 def create_team(request):
-    if request.user.team is not None:
-        return Response({'message': 'شما در یک تیم عضو هستید و نمی‌توانید تیم جدیدی ایجاد کنید.'},
-                        status=HTTP_403_FORBIDDEN)
     team_name = request.data.get('name')
     if not team_name:
         return Response({'message': 'نام تیم نمی‌تواند خالی باشد.'}, status=HTTP_400_BAD_REQUEST)
     try:
         validators.team_name_validator(team_name)
-        team = Team(name=team_name)
-        team.save()
-        request.user.team = team
-        request.user.save()
+        if request.user.team is not None:
+            request.user.team.name = team_name
+            request.user.team.save()
+            return Response({'message': 'نام تیم شما به {} تغییر یافت.'.format(request.user.team.name)},
+                            status=HTTP_200_OK)
+        else:
+            team = Team(name=team_name)
+            team.save()
+            request.user.team = team
+            request.user.save()
+            return Response({'message': 'تیم {} با موفقیت ساخته شد.'.format(request.user.team.name)},
+                            status=HTTP_201_CREATED)
     except ValidationError as e:
         return Response({'message': str(e.message)}, status=HTTP_400_BAD_REQUEST)
-    return Response({'message': 'تیم {} با موفقیت ساخته شد.'.format(team.name)}, status=HTTP_201_CREATED)
 
 
 @api_view(['GET'])
