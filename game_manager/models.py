@@ -51,7 +51,7 @@ class Game(models.Model):
         return self.request.receiver
 
     def add_to_queue(self):
-        pass
+        pass  # todo
 
     def run_game(self):
-        pass
+        pass  # todo

@@ -57,4 +57,4 @@ def reject_game_request(request):
 
 @api_view(['POST'])
 def callback_update_game_status(request):
-    pass
+    pass  # todo
