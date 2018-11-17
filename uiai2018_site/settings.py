@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'main',
     'user_panel',
     'blog',
+    'game_manager'
 ]
 
 MIDDLEWARE = [
