@@ -140,3 +140,33 @@ class Settings(models.Model):
     class Meta:
         verbose_name = 'Settings'
         verbose_name_plural = 'Settings'
+
+
+class Code(models.Model):
+    PYTHON, JAVA, CPP = 'PYTHON', 'JAVA', 'CPP'
+    LANGUAGE_OPTIONS = (PYTHON, JAVA, CPP)
+
+    WAITING = 'WAITING'
+    COMPILING = 'COMPILING'
+    COMPILATION_OK = 'COMPILATION_OK'
+    COMPILATION_ERROR = 'COMPILATION_ERROR'
+    STATUS_OPTIONS = (
+        (WAITING, 'در انتظار'),
+        (COMPILING, 'در حال کامپایل'),
+        (COMPILATION_OK, 'کامپایل موفق'),
+        (COMPILATION_ERROR, 'خطای کامپایل'),
+    )
+
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='uploaded_codes')
+    is_final = models.BooleanField(default=True)
+    compilation_status = models.CharField(max_length=18, default=WAITING)
+    compile_status_text = models.TextField(max_length=8192, blank=True, null=True)
+    code_zip = models.FileField(upload_to='codes')
+    language = models.CharField(max_length=6, choices=((l, l) for l in LANGUAGE_OPTIONS))
+    upload_timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '{}, {} @{}'.format(self.team.name, self.language, self.upload_timestamp)
+
+    def compile(self):
+        pass
