@@ -16,6 +16,12 @@ class TeamAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 
+class CodeAdmin(admin.ModelAdmin):
+    list_display = ['__str__', 'compilation_status', 'upload_timestamp', 'is_final']
+    list_filter = ['compilation_status', 'is_final']
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Team, TeamAdmin)
 admin.site.register(Settings)
+admin.site.register(Code, CodeAdmin)
