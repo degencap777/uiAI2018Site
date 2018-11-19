@@ -20,4 +20,5 @@ urlpatterns = [
     path('team/accept/', accept_team_invitation, name='accept_team_invitation'),
     path('team/leave/', leave_team, name='leave_team'),
     path('team/upload_code/', upload_code, name='upload_code'),
+    path('team/set_final_code/', set_final_code, name='set_final_code'),
 ]
