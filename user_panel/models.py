@@ -98,7 +98,8 @@ class Team(models.Model):
         return {
             'name': self.name,
             'logo': self.logo.url,
-            'members': [member.email for member in self.members.all()[:3]]
+            'members': [member.email for member in self.members.all()[:3]],
+            'uploaded_code': [code.get_dict() for code in self.uploaded_codes],
         }
 
 
@@ -167,6 +168,17 @@ class Code(models.Model):
 
     def __str__(self):
         return '{}, {} @{}'.format(self.team.name, self.language, self.upload_timestamp)
+
+    def get_dict(self):
+        return {
+            'team_name': self.team.name,
+            'is_final': self.is_final,
+            'compile_status': self.compilation_status,
+            'compile_status_text': self.compile_status_text,
+            'code_download_url': self.code_zip.url,
+            'language': self.language,
+            'upload_time': self.upload_timestamp,
+        }
 
     def compile(self):
         pass
