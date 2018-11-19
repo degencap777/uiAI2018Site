@@ -171,6 +171,7 @@ class Code(models.Model):
 
     def get_dict(self):
         return {
+            'id': self.pk,
             'team_name': self.team.name,
             'is_final': self.is_final,
             'compile_status': self.compilation_status,
