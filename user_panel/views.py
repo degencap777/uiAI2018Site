@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view, permission_classes, parser_class
 from rest_framework.parsers import MultiPartParser
 
 from user_panel.models import *
+from user_panel.decorators import *
 
 
 @api_view(['GET'])
@@ -78,11 +79,10 @@ def create_team(request):
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
+@team_required
 def get_team_info(request):
     if not request.user.is_authenticated and 'team_id' not in request.data:
         return Response({'message': 'کد تیم مشخص نشده.'}, status=HTTP_400_BAD_REQUEST)
-    if request.user.is_authenticated and 'team_id' not in request.data and request.user.team is None:
-        return Response({'message': 'کاربر فاقد تیم می‌باشد.'}, status=HTTP_404_NOT_FOUND)
     team_id = int(request.data.get('team_id', request.user.team.pk))
     try:
         team = Team.objects.get(pk=team_id)
@@ -92,9 +92,8 @@ def get_team_info(request):
 
 
 @api_view(['POST'])
+@team_required
 def send_team_invitation(request):
-    if not request.user.team:
-        return Response({'message': 'شما در تیمی عضو نیستید.'}, status=HTTP_404_NOT_FOUND)
     receiver_email = request.data.get('email')
     try:
         receiver = User.objects.get(email=receiver_email)
@@ -150,9 +149,8 @@ def reject_team_invitation(request):
 
 
 @api_view(['POST'])
+@team_required
 def leave_team(request):
-    if not request.user.team:
-        return Response({'message': 'شما در تیمی عضو نیستید.'}, status=HTTP_404_NOT_FOUND)
     team_name = request.user.team.name
     request.user.team = None
     request.user.save()
