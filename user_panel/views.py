@@ -174,6 +174,7 @@ def get_version(request):
 
 @api_view(['POST'])
 @parser_classes([MultiPartParser])
+@team_required
 def upload_code(request):
     if not request.user.team:
         return Response({'message': 'شما در تیمی عضو نیستید.'}, status=HTTP_404_NOT_FOUND)
@@ -186,9 +187,8 @@ def upload_code(request):
 
 
 @api_view(['POST'])
+@team_required
 def set_final_code(request):
-    if not request.user.team:
-        return Response({'message': 'شما در تیمی عضو نیستید.'}, status=HTTP_404_NOT_FOUND)
     try:
         code = Code.objects.get(pk=int(request.data.get('id')))
     except ValueError:
