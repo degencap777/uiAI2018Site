@@ -19,5 +19,5 @@ urlpatterns = [
     path('team/reject/', reject_team_invitation, name='reject_team_invitation'),
     path('team/accept/', accept_team_invitation, name='accept_team_invitation'),
     path('team/leave/', leave_team, name='leave_team'),
-
+    path('team/upload_code/', upload_code, name='upload_code'),
 ]

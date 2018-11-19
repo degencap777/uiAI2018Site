@@ -2,7 +2,8 @@ from django.http import HttpResponse
 from rest_framework.status import *
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, parser_classes
+from rest_framework.parsers import MultiPartParser
 
 from user_panel.models import *
 
@@ -171,3 +172,16 @@ def get_version(request):
         return Response({'version': setting.value})
     except Settings.DoesNotExist:
         return Response(status=HTTP_404_NOT_FOUND)
+
+
+@api_view(['POST'])
+@parser_classes([MultiPartParser])
+def upload_code(request):
+    if not request.user.team:
+        return Response({'message': 'شما در تیمی عضو نیستید.'}, status=HTTP_404_NOT_FOUND)
+    language = request.data.get('language')
+    zip_file = request.data.get('zip_file')
+    if language not in Code.LANGUAGE_OPTIONS:
+        return Response({'message': 'زبان انتخاب شده نامعتبر است.'}, status=HTTP_400_BAD_REQUEST)
+    Code(language=language, code_zip=zip_file, team=request.user.team).save()
+    return Response({'message': 'کد شما با موفقیت آپلود شد.'}, status=HTTP_200_OK)
