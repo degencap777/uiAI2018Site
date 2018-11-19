@@ -185,3 +185,20 @@ def upload_code(request):
         return Response({'message': 'زبان انتخاب شده نامعتبر است.'}, status=HTTP_400_BAD_REQUEST)
     Code(language=language, code_zip=zip_file, team=request.user.team).save()
     return Response({'message': 'کد شما با موفقیت آپلود شد.'}, status=HTTP_200_OK)
+
+
+@api_view(['POST'])
+def set_final_code(request):
+    if not request.user.team:
+        return Response({'message': 'شما در تیمی عضو نیستید.'}, status=HTTP_404_NOT_FOUND)
+    try:
+        code = Code.objects.get(pk=int(request.data.get('id')))
+    except ValueError:
+        return Response({'message': 'ورودی شناسه کد نامعتبر است.'}, HTTP_400_BAD_REQUEST)
+    except Code.DoesNotExist:
+        return Response({'message': 'کد با شناسه مورد نظر یافت نشد.'}, HTTP_404_NOT_FOUND)
+    if code.team != request.user.team:
+        return Response({'message': 'تیم شما دسترسی به کد مورد نظر را ندارد.'}, HTTP_403_FORBIDDEN)
+    code.is_final = True
+    code.save()
+    return Response({'message': 'کد مورد نظر به عنوان کد نهایی انتخاب شد.'}, HTTP_200_OK)
