@@ -4,9 +4,11 @@ from rest_framework.decorators import api_view
 
 from game_manager.models import *
 from user_panel.models import *
+from user_panel.decorators import team_required
 
 
 @api_view(['POST'])
+@team_required
 def send_game_request(request):
     try:
         receiver = Team.objects.get(pk=int(request.data.get('team_id')))
@@ -14,8 +16,6 @@ def send_game_request(request):
         return Response({'message': 'شناسه تیم نامعتبر است.'}, status=HTTP_400_BAD_REQUEST)
     except Team.DoesNotExist:
         return Response({'message': 'تیم مورد نظر پیدا نشد.'}, status=HTTP_404_NOT_FOUND)
-    if request.user.team is None:
-        return Response({'message': 'شما هنوز عضو تیمی نشده‌اید.'}, status=HTTP_403_FORBIDDEN)
     sender = request.user.team
     game_request = GameRequest(sender=sender, receiver=receiver)
     game_request.save()
@@ -23,6 +23,7 @@ def send_game_request(request):
 
 
 @api_view(['POST'])
+@team_required
 def accept_game_request(request):
     try:
         game_request = GameRequest.objects.get(pk=int(request.data.get('request_id')))
@@ -41,6 +42,7 @@ def accept_game_request(request):
 
 
 @api_view(['POST'])
+@team_required
 def reject_game_request(request):
     try:
         game_request = GameRequest.objects.get(pk=int(request.data.get('request_id')))
