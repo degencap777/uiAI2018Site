@@ -1,5 +1,7 @@
-from user_panel.models import *
 from django.db import models
+
+from user_panel.models import *
+from game_manager import server_api
 
 
 class GameRequest(models.Model):
@@ -50,8 +52,5 @@ class Game(models.Model):
     def get_request_receiver_team(self):
         return self.request.receiver
 
-    def add_to_queue(self):
-        pass  # todo
-
-    def run_game(self):
-        pass  # todo
+    def send_to_server(self):
+        pass
