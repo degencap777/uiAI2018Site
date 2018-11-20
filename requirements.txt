@@ -8,3 +8,4 @@ django-jet
 djangorestframework-simplejwt
 django-summernote
 django-simple-captcha
+requests

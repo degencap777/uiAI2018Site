@@ -12,6 +12,7 @@ urlpatterns = [
     path('uiai2018/', include('main.urls')),
     path('uiai2018/api/', include('user_panel.urls')),
     path('uiai2018/blog/', include('blog.urls')),
+    path('uiai2018/games/', include('game_manager.urls')),
 ]
 
 if settings.DEBUG:

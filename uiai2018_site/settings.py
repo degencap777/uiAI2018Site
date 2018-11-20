@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'main',
     'user_panel',
     'blog',
+    'game_manager'
 ]
 
 MIDDLEWARE = [
@@ -163,3 +164,5 @@ SUMMERNOTE_CONFIG = {
     },
 }
 SUMMERNOTE_THEME = 'bs4'
+
+GAME_RUNNER_SERVERS = ['http://127.0.0.1:8888']
