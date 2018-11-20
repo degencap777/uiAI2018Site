@@ -5,7 +5,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = '_t&%$%vnb&)2d+q0(spwdap5$yzg23_q9cfhmeg#%-au2eu3jv'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'acm.ui.ac.ir']
 
