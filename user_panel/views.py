@@ -197,6 +197,9 @@ def set_final_code(request):
         return Response({'message': 'کد با شناسه مورد نظر یافت نشد.'}, HTTP_404_NOT_FOUND)
     if code.team != request.user.team:
         return Response({'message': 'تیم شما دسترسی به کد مورد نظر را ندارد.'}, HTTP_403_FORBIDDEN)
+    for c in request.user.team.uploaded_codes.all():
+        c.is_final = False
+        c.save()
     code.is_final = True
     code.save()
     return Response({'message': 'کد مورد نظر به عنوان کد نهایی انتخاب شد.'}, HTTP_200_OK)

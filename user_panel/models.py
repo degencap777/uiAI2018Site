@@ -91,6 +91,9 @@ class Team(models.Model):
     def get_member3(self):
         return self.members.all()[2] if self.members.count() > 2 else None
 
+    def get_final_code(self):
+        return self.uploaded_codes.get(is_final=True)
+
     def __str__(self):
         return self.name
 
