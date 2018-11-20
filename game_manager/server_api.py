@@ -9,7 +9,7 @@ def get_best_server():
         try:
             if r.json()['code'] == 200:
                 return server
-        except requests.exceptions.ConnectionError:
+        except BaseException:
             pass
 
 
