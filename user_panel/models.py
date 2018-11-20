@@ -171,7 +171,7 @@ class Code(models.Model):
 
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='uploaded_codes')
     is_final = models.BooleanField(default=True)
-    compilation_status = models.CharField(max_length=18, default=WAITING)
+    compilation_status = models.CharField(max_length=18, choices=STATUS_OPTIONS, default=WAITING)
     compile_status_text = models.TextField(max_length=8192, blank=True, null=True)
     code_zip = models.FileField(upload_to='codes')
     language = models.CharField(max_length=6, choices=((l, l) for l in LANGUAGE_OPTIONS))
