@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view
 from game_manager.models import *
 from user_panel.models import *
 from user_panel.decorators import team_required
+from game_manager import tasks
 
 
 @api_view(['POST'])
@@ -37,7 +38,7 @@ def accept_game_request(request):
     game_request.save()
     game = Game(request=game_request)
     game.save()
-    game.add_to_queue()
+    tasks.add_game_to_queue(game.pk)
     return Response({'message': 'درخواست بازی تایید شد.'}, status=HTTP_201_CREATED)
 
 

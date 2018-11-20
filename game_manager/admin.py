@@ -6,7 +6,7 @@ from game_manager import tasks
 
 def start_games(modeladmin, request, queryset):
     for game in queryset:
-        game.add_to_queue()
+        tasks.add_game_to_queue(game.pk)
 
 
 start_games.short_description = 'Start selected games'
