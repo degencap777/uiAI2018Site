@@ -79,7 +79,6 @@ def create_team(request):
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-@team_required
 def get_team_info(request):
     if not request.user.is_authenticated and 'team_id' not in request.data:
         return Response({'message': 'کد تیم مشخص نشده.'}, status=HTTP_400_BAD_REQUEST)
