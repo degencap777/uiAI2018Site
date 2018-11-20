@@ -5,8 +5,8 @@ from uiai2018_site.settings import GAME_RUNNER_SERVERS
 
 def get_best_server():
     for server in GAME_RUNNER_SERVERS:
-        r = requests.get('{}/api/server/status/'.format(server))
         try:
+            r = requests.get('{}/api/server/status/'.format(server))
             if r.json()['code'] == 200:
                 return server
         except BaseException:
