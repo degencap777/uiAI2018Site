@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.exceptions import ValidationError
 
 from user_panel import upload_filenames, validators
+from game_manager import models as game_manager_models
 
 
 class UserManager(BaseUserManager):
@@ -94,6 +95,10 @@ class Team(models.Model):
     def get_final_code(self):
         return self.uploaded_codes.get(is_final=True)
 
+    def get_games(self):
+        return game_manager_models.Game.objects.filter(request__sender=self) | \
+               game_manager_models.Game.objects.filter(request__receiver=self)
+
     def __str__(self):
         return self.name
 
@@ -102,7 +107,10 @@ class Team(models.Model):
             'name': self.name,
             'logo': self.logo.url,
             'members': [member.email for member in self.members.all()[:3]],
-            'uploaded_code': [code.get_dict() for code in self.uploaded_codes],
+            'uploaded_codes': [code.get_dict() for code in self.uploaded_codes.all()],
+            'received_game_requests': [r.get_dict() for r in self.received_game_requests.all()],
+            'sent_game_requests': [r.get_dict() for r in self.sent_game_requests.all()],
+            'games': [g.get_dict() for g in self.get_games()],
         }
 
 

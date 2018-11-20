@@ -21,6 +21,13 @@ class GameRequest(models.Model):
     def __str__(self):
         return 'REQ: {} vs {} - {}'.format(self.sender.name, self.receiver.name, self.status)
 
+    def get_dict(self):
+        return {
+            'sender_id': self.sender.pk,
+            'receiver_id': self.receiver.pk,
+            'status': self.status,
+        }
+
 
 class Game(models.Model):
     WAITING = 'WAITING'
@@ -41,6 +48,13 @@ class Game(models.Model):
 
     def __str__(self):
         return 'GAME: {} vs {} - {}'.format(self.request.sender.name, self.request.receiver.name, self.status)
+
+    def get_dict(self):
+        return {
+            {'team1': {'id': self.request.sender.pk}},
+            {'team2': {'id': self.request.receiver.pk}},
+            {'game': {}}
+        }
 
     def get_result_string(self):
         return '{} {} - {} {}'.format(self.logged_team1_name, self.logged_team1_goals,
