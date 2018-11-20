@@ -37,7 +37,7 @@ def accept_game_request(request):
     game_request.save()
     game = Game(request=game_request)
     game.save()
-    game.send_to_server()
+    game.add_to_queue()
     return Response({'message': 'درخواست بازی تایید شد.'}, status=HTTP_201_CREATED)
 
 

@@ -21,10 +21,11 @@ INSTALLED_APPS = [
     'captcha',
     'django_summernote',
     'rest_framework',
+    'background_task',
     'main',
     'user_panel',
     'blog',
-    'game_manager'
+    'game_manager',
 ]
 
 MIDDLEWARE = [

@@ -9,3 +9,4 @@ djangorestframework-simplejwt
 django-summernote
 django-simple-captcha
 requests
+django-background-tasks

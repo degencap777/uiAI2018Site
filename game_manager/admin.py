@@ -1,11 +1,12 @@
 from django.contrib import admin
 
 from game_manager.models import *
+from game_manager import tasks
 
 
 def start_games(modeladmin, request, queryset):
     for game in queryset:
-        game.send_to_server()
+        game.add_to_queue()
 
 
 start_games.short_description = 'Start selected games'

@@ -1,8 +1,5 @@
 from django.db import models
 
-from user_panel.models import *
-from game_manager import server_api
-
 
 class GameRequest(models.Model):
     PENDING = 'PENDING'
@@ -14,8 +11,8 @@ class GameRequest(models.Model):
         (REJECTED, 'رد شده'),
     )
 
-    sender = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='sent_game_requests')
-    receiver = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='received_game_requests')
+    sender = models.ForeignKey('user_panel.Team', on_delete=models.CASCADE, related_name='sent_game_requests')
+    receiver = models.ForeignKey('user_panel.Team', on_delete=models.CASCADE, related_name='received_game_requests')
     status = models.CharField(max_length=8, choices=STATUS_OPTIONS, default=PENDING)
 
     def __str__(self):
@@ -65,6 +62,3 @@ class Game(models.Model):
 
     def get_request_receiver_team(self):
         return self.request.receiver
-
-    def send_to_server(self):
-        pass
