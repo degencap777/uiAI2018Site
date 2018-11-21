@@ -99,7 +99,10 @@ class Team(models.Model):
         return self.members.all()[2] if self.members.count() > 2 else None
 
     def get_final_code(self):
-        return self.uploaded_codes.get(is_final=True)
+        try:
+            return self.uploaded_codes.get(is_final=True)
+        except Code.DoesNotExist or Code.MultipleObjectsReturned:
+            return None
 
     def get_games(self):
         return game_manager_models.Game.objects.filter(request__sender=self) | \
