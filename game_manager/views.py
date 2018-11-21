@@ -1,8 +1,11 @@
 from time import time
+
+from django.urls import reverse
 from rest_framework.status import *
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
+from django.contrib.sites.shortcuts import get_current_site
 
 from game_manager.models import *
 from user_panel.models import *
@@ -40,7 +43,7 @@ def accept_game_request(request):
     game_request.save()
     game = Game(request=game_request, token=str(int(time())))
     game.save()
-    tasks.add_game_to_queue(game.pk)
+    tasks.add_game_to_queue(game.pk, get_current_site(request) + reverse('callback_game_status'))
     return Response({'message': 'درخواست بازی تایید شد.'}, status=HTTP_201_CREATED)
 
 

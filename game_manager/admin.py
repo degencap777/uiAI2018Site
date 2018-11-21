@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.contrib.sites.shortcuts import get_current_site
+from django.urls import reverse
 
 from game_manager.models import *
 from game_manager import tasks
@@ -6,7 +8,7 @@ from game_manager import tasks
 
 def start_games(modeladmin, request, queryset):
     for game in queryset:
-        tasks.add_game_to_queue(game.pk)
+        tasks.add_game_to_queue(game.pk, str(get_current_site(request)) + reverse('callback_game_status'))
 
 
 start_games.short_description = 'Start selected games'
