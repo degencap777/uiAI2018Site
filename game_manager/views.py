@@ -72,8 +72,6 @@ def callback_update_game_status(request):
         return Response(status=HTTP_404_NOT_FOUND)
     except ValueError:
         return Response(status=HTTP_400_BAD_REQUEST)
-    if game.token != request.data['token']:
-        return Response(status=HTTP_403_FORBIDDEN)
     game.logged_team1_name = request.data['team1_name']
     game.logged_team1_goals = request.data['team1_goals']
     game.logged_team2_name = request.data['team2_name']
