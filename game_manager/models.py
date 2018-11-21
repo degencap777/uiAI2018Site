@@ -14,15 +14,18 @@ class GameRequest(models.Model):
     sender = models.ForeignKey('user_panel.Team', on_delete=models.CASCADE, related_name='sent_game_requests')
     receiver = models.ForeignKey('user_panel.Team', on_delete=models.CASCADE, related_name='received_game_requests')
     status = models.CharField(max_length=8, choices=STATUS_OPTIONS, default=PENDING)
+    date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return 'REQ: {} vs {} - {}'.format(self.sender.name, self.receiver.name, self.status)
 
     def get_dict(self):
         return {
+            'id': self.pk,
             'sender_id': self.sender.pk,
             'receiver_id': self.receiver.pk,
             'status': self.status,
+            'date': self.date,
         }
 
 
@@ -48,7 +51,15 @@ class Game(models.Model):
         return 'GAME: {} vs {} - {}'.format(self.request.sender.name, self.request.receiver.name, self.status)
 
     def get_dict(self):
-        return {}
+        return {
+            'id': self.pk,
+            'status': self.get_status_display(),
+            'team1_name': self.logged_team1_name,
+            'team1_goals': self.logged_team1_goals,
+            'team2_name': self.logged_team2_name,
+            'team2_goals': self.logged_team2_goals,
+            'log_file': self.log_file.url,
+        }
 
     def get_result_string(self):
         return '{} {} - {} {}'.format(self.logged_team1_name, self.logged_team1_goals,

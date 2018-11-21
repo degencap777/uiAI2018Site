@@ -80,3 +80,17 @@ def callback_update_game_status(request):
     game.status = Game.FINISHED
     game.save()
     return Response(status=HTTP_200_OK)
+
+
+@api_view(['GET'])
+def get_game_info(request):
+    try:
+        game = Game.objects.get(pk=int(request.data['game_id']))
+    except ValueError:
+        return Response({'message': 'شناسه بازی نامعتبر است.'}, status=HTTP_400_BAD_REQUEST)
+    except Game.DoesNotExist:
+        return Response({'message': 'بازی مورد نظر پیدا نشد.'}, status=HTTP_404_NOT_FOUND)
+    if game.get_request_sender_team() == request.user.team or game.get_request_receiver_team() == request.user.team:
+        return Response(game.get_dict())
+    else:
+        return Response({'message': 'شما اجازه مشاهده نتایج این بازی را ندارید.'}, status=HTTP_403_FORBIDDEN)
