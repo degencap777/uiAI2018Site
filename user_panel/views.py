@@ -215,5 +215,9 @@ def set_final_code(request):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def get_available_teams(request):
-    return Response(dict((t.pk, t.name) for t in Team.objects.all()))
+    teams = []
+    for team in Team.objects.all():
+        teams.append({'id': team.pk, 'name': team.name})
+    return Response(teams)
