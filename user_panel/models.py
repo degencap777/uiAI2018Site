@@ -1,8 +1,14 @@
+import glob
+import os
+import subprocess
+import zipfile
+
 from django.contrib.auth.password_validation import validate_password
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.exceptions import ValidationError
 
+from uiai2018_site.settings import BASE_DIR
 from user_panel import upload_filenames, validators
 from game_manager import models as game_manager_models
 
@@ -185,12 +191,52 @@ class Code(models.Model):
             'id': self.pk,
             'team_name': self.team.name,
             'is_final': self.is_final,
-            'compile_status': self.compilation_status,
+            'compile_status': self.get_compilation_status_display(),
             'compile_status_text': self.compile_status_text,
             'code_download_url': self.code_zip.url,
             'language': self.language,
             'upload_time': self.upload_timestamp,
         }
 
+    def get_extraction_path(self):
+        return os.path.join(BASE_DIR, 'codes', str(self.team.pk), str(self.pk))
+
+    def extract(self):
+        with zipfile.ZipFile(self.code_zip.path, "r") as z:
+            z.extractall(self.get_extraction_path())
+
     def compile(self):
-        pass
+        if self.language == Code.PYTHON:
+            self.compile_status_text = 'بدون نیاز به کامپایل'
+            self.compilation_status = Code.COMPILATION_OK
+            self.save()
+        elif self.language == Code.JAVA:
+            self.compilation_status = Code.COMPILING
+            self.save()
+            client_files = glob.glob(os.path.join(self.get_extraction_path(), '*.java'))
+            subprocess.run(['rm', '-r', 'out'], cwd=self.get_extraction_path())
+            subprocess.run(['mkdir', 'out'], cwd=self.get_extraction_path())
+            p = subprocess.run(['javac'] + client_files + ['-d', 'out'], cwd=self.get_extraction_path(),
+                               stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+            if p.returncode == 0:
+                self.compilation_status = Code.COMPILATION_OK
+                self.compile_status_text = 'کد جاوا شما با موفقیت کامپایل شد.'
+                self.save()
+            elif p.returncode == 2:
+                self.compilation_status = Code.COMPILATION_ERROR
+                self.compile_status_text = p.stdout.decode("utf-8")
+                self.save()
+        elif self.language == Code.CPP:
+            client_files = glob.glob(os.path.join(self.get_extraction_path(), '*.cpp'))
+            subprocess.run(['rm', 'out'], cwd=self.get_extraction_path())
+            p = subprocess.run(['g++'] + client_files + ['-o', 'out'], cwd=self.get_extraction_path(),
+                               stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+            if p.returncode == 0:
+                self.compilation_status = Code.COMPILATION_OK
+                self.compile_status_text = 'کد ++C شما با موفقیت کامپایل شد.'
+                self.save()
+            elif p.returncode == 1:
+                self.compilation_status = Code.COMPILATION_ERROR
+                self.compile_status_text = p.stdout.decode("utf-8")
+                self.save()
+        return self.compilation_status

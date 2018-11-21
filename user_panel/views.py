@@ -1,6 +1,3 @@
-from django.http import HttpResponse
-from rest_framework.status import *
-from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.parsers import MultiPartParser
@@ -181,10 +178,16 @@ def upload_code(request):
     zip_file = request.data.get('zip_file')
     if language not in Code.LANGUAGE_OPTIONS:
         return Response({'message': 'زبان انتخاب شده نامعتبر است.'}, status=HTTP_400_BAD_REQUEST)
-    current_final = request.user.team.get_final_code()
-    current_final.is_final = False
-    current_final.save()
-    Code(language=language, code_zip=zip_file, team=request.user.team, is_final=True).save()
+    new_code = Code(language=language, code_zip=zip_file, team=request.user.team)
+    new_code.save()
+    new_code.extract()
+    compile_result = new_code.compile()
+    if compile_result == Code.COMPILATION_OK:
+        current_final = request.user.team.get_final_code()
+        current_final.is_final = False
+        current_final.save()
+        new_code.is_final = True
+        new_code.save()
     return Response({'message': 'کد شما با موفقیت آپلود شد.'}, status=HTTP_200_OK)
 
 
@@ -199,6 +202,8 @@ def set_final_code(request):
         return Response({'message': 'کد با شناسه مورد نظر یافت نشد.'}, HTTP_404_NOT_FOUND)
     if code.team != request.user.team:
         return Response({'message': 'تیم شما دسترسی به کد مورد نظر را ندارد.'}, HTTP_403_FORBIDDEN)
+    if code.compilation_status != Code.COMPILATION_OK:
+        return Response({'message': 'کد مورد نظر با موفقیت کامپایل نشده.'}, status=HTTP_403_FORBIDDEN)
     current_final = request.user.team.get_final_code()
     current_final.is_final = False
     current_final.save()
