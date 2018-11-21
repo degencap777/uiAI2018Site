@@ -212,3 +212,8 @@ def set_final_code(request):
     code.is_final = True
     code.save()
     return Response({'message': 'کد مورد نظر به عنوان کد نهایی انتخاب شد.'}, HTTP_200_OK)
+
+
+@api_view(['GET'])
+def get_available_teams(request):
+    return Response(dict((t.pk, t.name) for t in Team.objects.all()))
