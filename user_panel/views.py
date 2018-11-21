@@ -181,7 +181,10 @@ def upload_code(request):
     zip_file = request.data.get('zip_file')
     if language not in Code.LANGUAGE_OPTIONS:
         return Response({'message': 'زبان انتخاب شده نامعتبر است.'}, status=HTTP_400_BAD_REQUEST)
-    Code(language=language, code_zip=zip_file, team=request.user.team).save()
+    current_final = request.user.team.get_final_code()
+    current_final.is_final = False
+    current_final.save()
+    Code(language=language, code_zip=zip_file, team=request.user.team, is_final=True).save()
     return Response({'message': 'کد شما با موفقیت آپلود شد.'}, status=HTTP_200_OK)
 
 
@@ -196,9 +199,9 @@ def set_final_code(request):
         return Response({'message': 'کد با شناسه مورد نظر یافت نشد.'}, HTTP_404_NOT_FOUND)
     if code.team != request.user.team:
         return Response({'message': 'تیم شما دسترسی به کد مورد نظر را ندارد.'}, HTTP_403_FORBIDDEN)
-    for c in request.user.team.uploaded_codes.all():
-        c.is_final = False
-        c.save()
+    current_final = request.user.team.get_final_code()
+    current_final.is_final = False
+    current_final.save()
     code.is_final = True
     code.save()
     return Response({'message': 'کد مورد نظر به عنوان کد نهایی انتخاب شد.'}, HTTP_200_OK)
