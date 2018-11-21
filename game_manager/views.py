@@ -1,6 +1,8 @@
+from time import time
 from rest_framework.status import *
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 
 from game_manager.models import *
 from user_panel.models import *
@@ -36,7 +38,7 @@ def accept_game_request(request):
         return Response({'message': 'شما قادر به تایید این بازی نیستید.'}, status=HTTP_403_FORBIDDEN)
     game_request.status = GameRequest.ACCEPTED
     game_request.save()
-    game = Game(request=game_request)
+    game = Game(request=game_request, token=str(int(time())))
     game.save()
     tasks.add_game_to_queue(game.pk)
     return Response({'message': 'درخواست بازی تایید شد.'}, status=HTTP_201_CREATED)
@@ -59,5 +61,21 @@ def reject_game_request(request):
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def callback_update_game_status(request):
-    pass  # todo
+    try:
+        game = Game.objects.get(pk=int(request.data['game_id']))
+    except Game.DoesNotExist:
+        return Response(status=HTTP_404_NOT_FOUND)
+    except ValueError:
+        return Response(status=HTTP_400_BAD_REQUEST)
+    if game.token != request.data['token']:
+        return Response(status=HTTP_403_FORBIDDEN)
+    game.logged_team1_name = request.data['team1_name']
+    game.logged_team1_goals = request.data['team1_goals']
+    game.logged_team2_name = request.data['team2_name']
+    game.logged_team2_goals = request.data['team2_goals']
+    game.log_file = request.data['log_file']
+    game.status = Game.FINISHED
+    game.save()
+    return Response(status=HTTP_200_OK)

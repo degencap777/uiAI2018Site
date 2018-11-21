@@ -42,6 +42,7 @@ class Game(models.Model):
     logged_team1_goals = models.IntegerField(blank=True, null=True)
     logged_team2_goals = models.IntegerField(blank=True, null=True)
     log_file = models.FileField(upload_to='logs', blank=True, null=True)
+    token = models.CharField(max_length=64)
 
     def __str__(self):
         return 'GAME: {} vs {} - {}'.format(self.request.sender.name, self.request.receiver.name, self.status)
