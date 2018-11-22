@@ -24,7 +24,7 @@ class GameRequest(models.Model):
             'id': self.pk,
             'sender_id': self.sender.pk,
             'receiver_id': self.receiver.pk,
-            'status': self.status,
+            'status': self.get_status_display(),
             'date': self.date,
         }
 
