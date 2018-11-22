@@ -43,8 +43,11 @@ def accept_game_request(request):
     game_request.save()
     game = Game(request=game_request, token=str(int(time())))
     game.save()
-    tasks.add_game_to_queue(game.pk, get_current_site(request) + reverse('callback_game_status'))
-    return Response({'message': 'درخواست بازی تایید شد.'}, status=HTTP_201_CREATED)
+    success = tasks.add_game_to_queue(game.pk, str(get_current_site(request)) + reverse('callback_game_status'))
+    if success:
+        return Response({'message': 'درخواست بازی تایید شد.'}, status=HTTP_201_CREATED)
+    else:
+        return Response({'message': 'تایید درخواست با خطا مواجه شد.'}, status=HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['POST'])

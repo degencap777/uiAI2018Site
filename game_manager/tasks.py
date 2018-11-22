@@ -7,7 +7,7 @@ from game_manager.server_api import request_game_run
 @background
 def add_game_to_queue(game_id, callback_url):
     game = Game.objects.get(pk=game_id)
-    response = request_game_run(
+    success, message = request_game_run(
         client1_name=game.get_request_sender_team().name,
         client1_language=game.get_request_sender_team().get_final_code().language,
         client1_path=game.get_request_sender_team().get_final_code().code_zip.path,
@@ -18,6 +18,9 @@ def add_game_to_queue(game_id, callback_url):
         token=game.token,
         callback_url='http://' + callback_url,
     )
-    if response.status_code == 201:
+    game.status_text = message
+    if success:
         game.status = Game.PLAYING
-        game.save()
+    else:
+        game.status = Game.ERROR
+    return success

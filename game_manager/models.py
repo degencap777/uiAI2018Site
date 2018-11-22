@@ -33,13 +33,16 @@ class Game(models.Model):
     WAITING = 'WAITING'
     PLAYING = 'PLAYING'
     FINISHED = 'FINISHED'
+    ERROR = 'ERROR'
     STATUS_OPTIONS = (
         (WAITING, 'در صف انتظار'),
         (PLAYING, 'در حال اجرا'),
         (FINISHED, 'پایان یافته'),
+        (ERROR, 'خطا در اجرای بازی')
     )
     request = models.OneToOneField(GameRequest, on_delete=models.CASCADE)
     status = models.CharField(max_length=8, choices=STATUS_OPTIONS, default=WAITING)
+    status_text = models.TextField(max_length=8192, blank=True, null=True)
     logged_team1_name = models.CharField(max_length=16, blank=True, null=True)
     logged_team2_name = models.CharField(max_length=16, blank=True, null=True)
     logged_team1_goals = models.IntegerField(blank=True, null=True)
