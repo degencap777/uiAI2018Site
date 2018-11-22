@@ -1,3 +1,5 @@
+import base64
+
 from django.db import models
 
 
@@ -56,6 +58,12 @@ class Game(models.Model):
     def __str__(self):
         return 'GAME: {} vs {} - {}'.format(self.request.sender.name, self.request.receiver.name, self.status)
 
+    def get_log_base64(self):
+        if self.log_file is None:
+            return ''
+        with open(self.log_file.path, 'rb') as log_file:
+            return base64.b64encode(log_file.read()).decode()
+
     def get_dict(self):
         return {
             'id': self.pk,
@@ -64,7 +72,7 @@ class Game(models.Model):
             'team1_goals': self.logged_team1_goals,
             'team2_name': self.logged_team2_name,
             'team2_goals': self.logged_team2_goals,
-            'log_file': self.log_file.url if self.log_file is not None else '',
+            'log_file': self.get_log_base64(),
             'run_date': self.run_date,
         }
 
