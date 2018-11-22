@@ -61,7 +61,7 @@ class Game(models.Model):
             'team1_goals': self.logged_team1_goals,
             'team2_name': self.logged_team2_name,
             'team2_goals': self.logged_team2_goals,
-            'log_file': self.log_file.url,
+            'log_file': self.log_file.url if self.log_file is not None else '',
         }
 
     def get_result_string(self):
