@@ -11,23 +11,23 @@
 </head>
 
 <body>
-    <section class=hero>
-        <h2>اخبار و مستندات مسابقه</h2>
-    </section>
+<section class=hero>
+    <h2>اخبار و مستندات مسابقه</h2>
+</section>
 
-    <section class="postsSection">
-        <div class="wrapper">
-            <article class="card">
-                <header>
-                    <h1 class="post-full-title">{{ post.title }}</h1>
-                    <p>تاریخ: {{ post.date }}</p>
-                </header>
-                {% autoescape off %}<p>{{ post.text }}</p>{% endautoescape %}
-            </article>
+<section class="postsSection">
+    <div class="wrapper">
+        <article class="card">
+            <header>
+                <h1 class="post-full-title">{{ post.title }}</h1>
+                <p>تاریخ: {{ post.date }}</p>
+            </header>
+            {% autoescape off %}<p>{{ post.text }}</p>{% endautoescape %}
+        </article>
 
-            <div class="comments">
-                <h4 class="comments-title">نظرات</h4>
-                {% for comment in post.get_approved_comments %}
+        <div class="comments">
+            <h4 class="comments-title">نظرات</h4>
+            {% for comment in post.get_approved_comments %}
                 <div class="comment">
                     <header>
                         <h5>{{ comment.user.get_full_name }}</h5>
@@ -35,45 +35,41 @@
                     </header>
                     <p>{{ comment.text }}</p>
                 </div>
-                {% endfor %}
-            </div>
+            {% endfor %}
+        </div>
 
-            <div class="card form-card">
-                <h4>فرم ارسال نظر</h4>
-                <div>
-                    {% if messages %}
+        <div class="card form-card">
+            <h4>فرم ارسال نظر</h4>
+            <div>
+                {% if messages %}
                     <div class="messages">
                         {% for message in messages %}
-                        <p style="color:
-                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} red
-                        {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %} green
-                        {% else %} black
-                        {% endif %};">{{ message }}</p>
+                            <p style="color:
+                                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} red
+                                    {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %} green
+                                    {% else %} black
+                                    {% endif %};">{{ message }}</p>
                         {% endfor %}
                     </div>
-                    {% endif %}
-                </div>
+                {% endif %}
+            </div>
 
-                {% if user.is_authenticated %}
-                <form class="comment-form" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {% for field in comment_form %}
+            <form class="comment-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in comment_form %}
                     <div>
                         {{ field }}
                         {% for error in field.errors %}
-                        <p style="color: red">{{ error }}</p>
+                            <p style="color: red">{{ error }}</p>
                         {% endfor %}
                     </div>
-                    {% endfor %}
+                {% endfor %}
 
-                    <button class="form-btn">ارسال</button>
-                </form>
-                {% else %}
-                <p>برای نظر دادن باید لاگین کرده باشید.</p>
-                {% endif %}
-            </div>
+                <button class="form-btn">ارسال</button>
+            </form>
         </div>
-    </section>
+    </div>
+</section>
 
 </body>
 

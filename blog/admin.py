@@ -11,7 +11,7 @@ class PostAdmin(summernote_admin.SummernoteModelAdmin):
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'user', 'post', 'approved']
+    list_display = ['__str__', 'full_name', 'email', 'post', 'approved']
 
 
 admin.site.register(models.Post, PostAdmin)

@@ -25,11 +25,12 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    full_name = models.CharField(max_length=32)
+    email = models.EmailField()
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     text = models.TextField(max_length=1024)
     date = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
 
     def __str__(self):
-        return '{} - {}'.format(self.user.get_full_name(), self.post.title)
+        return '{} - {}'.format(self.full_name, self.post.title)
