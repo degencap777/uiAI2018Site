@@ -23,4 +23,5 @@ def add_game_to_queue(game_id, callback_url):
         game.status = Game.PLAYING
     else:
         game.status = Game.ERROR
+    game.save()
     return success
