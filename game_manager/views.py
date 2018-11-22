@@ -1,4 +1,5 @@
 from time import time
+from datetime import datetime
 
 from django.urls import reverse
 from rest_framework.status import *
@@ -81,6 +82,7 @@ def callback_update_game_status(request):
     game.logged_team2_goals = request.data['team2_goals']
     game.log_file = request.data['log_file']
     game.status = Game.FINISHED
+    game.run_date = datetime.now()
     game.save()
     return Response(status=HTTP_200_OK)
 

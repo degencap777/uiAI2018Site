@@ -23,7 +23,9 @@ class GameRequest(models.Model):
         return {
             'id': self.pk,
             'sender_id': self.sender.pk,
+            'sender_name': self.sender.name,
             'receiver_id': self.receiver.pk,
+            'receiver_name': self.receiver.name,
             'status': self.get_status_display(),
             'date': self.date,
         }
@@ -49,6 +51,7 @@ class Game(models.Model):
     logged_team2_goals = models.IntegerField(blank=True, null=True)
     log_file = models.FileField(upload_to='logs', blank=True, null=True)
     token = models.CharField(max_length=64)
+    run_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return 'GAME: {} vs {} - {}'.format(self.request.sender.name, self.request.receiver.name, self.status)
@@ -62,6 +65,7 @@ class Game(models.Model):
             'team2_name': self.logged_team2_name,
             'team2_goals': self.logged_team2_goals,
             'log_file': self.log_file.url if self.log_file is not None else '',
+            'run_date': self.run_date,
         }
 
     def get_result_string(self):
