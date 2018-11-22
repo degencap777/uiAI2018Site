@@ -202,7 +202,7 @@ class Code(models.Model):
         }
 
     def get_extraction_path(self):
-        return os.path.join(BASE_DIR, 'codes', str(self.team.pk), str(self.pk))
+        return os.path.join(BASE_DIR, 'temp', 'compile', str(self.team.pk), str(self.pk))
 
     def extract(self):
         with zipfile.ZipFile(self.code_zip.path, "r") as z:
@@ -242,4 +242,5 @@ class Code(models.Model):
                 self.compilation_status = Code.COMPILATION_ERROR
                 self.compile_status_text = p.stdout.decode("utf-8")
                 self.save()
+        subprocess.run(['rm', '-r', self.get_extraction_path()])
         return self.compilation_status
