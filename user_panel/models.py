@@ -232,7 +232,7 @@ class Code(models.Model):
         elif self.language == Code.CPP:
             client_files = glob.glob(os.path.join(self.get_extraction_path(), '*.cpp'))
             subprocess.run(['rm', 'out'], cwd=self.get_extraction_path())
-            p = subprocess.run(['g++'] + client_files + ['-o', 'out'], cwd=self.get_extraction_path(),
+            p = subprocess.run(['g++', '-std=gnu++11'] + client_files + ['-o', 'out'], cwd=self.get_extraction_path(),
                                stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
             if p.returncode == 0:
                 self.compilation_status = Code.COMPILATION_OK
