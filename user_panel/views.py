@@ -172,8 +172,6 @@ def get_version(request):
 @parser_classes([MultiPartParser])
 @team_required
 def upload_code(request):
-    if not request.user.team:
-        return Response({'message': 'شما در تیمی عضو نیستید.'}, status=HTTP_404_NOT_FOUND)
     language = request.data.get('language')
     zip_file = request.data.get('zip_file')
     if language not in Code.LANGUAGE_OPTIONS:
