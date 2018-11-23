@@ -119,4 +119,4 @@ def get_game_log(request):
         return Response("Invalid token", status=HTTP_401_UNAUTHORIZED)
     with open(game.log_file.path, 'r') as lf:
         log_text = lf.read()
-    return Response(log_text)
+    return HttpResponse(log_text)
