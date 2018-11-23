@@ -9,7 +9,6 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.exceptions import ValidationError
 
 from uiai2018_site.settings import BASE_DIR
-from uiai2018_site.utils import get_jdatetime
 from user_panel import upload_filenames, validators
 from game_manager import models as game_manager_models
 
@@ -199,7 +198,7 @@ class Code(models.Model):
             'compile_status_text': self.compile_status_text,
             'code_download_url': self.code_zip.url,
             'language': self.language,
-            'upload_time': get_jdatetime(self.upload_timestamp),
+            'upload_time': self.upload_timestamp,
         }
 
     def get_extraction_path(self):
