@@ -7,5 +7,6 @@ urlpatterns = [
     path('accept/', views.accept_game_request, name='accept_game_request'),
     path('reject/', views.reject_game_request, name='reject_game_request'),
     path('callback/', views.callback_update_game_status, name='callback_game_status'),
-    path('info/', views.get_game_info, name='get_game_info')
+    path('info/', views.get_game_info, name='get_game_info'),
+    path('log/', views.get_game_log, name='get_game_log'),
 ]

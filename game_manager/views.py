@@ -2,6 +2,7 @@ from time import time
 from datetime import datetime
 
 from django.urls import reverse
+from django.http import HttpResponse
 from rest_framework.status import *
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -99,3 +100,23 @@ def get_game_info(request):
         return Response(game.get_dict())
     else:
         return Response({'message': 'شما اجازه مشاهده نتایج این بازی را ندارید.'}, status=HTTP_403_FORBIDDEN)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_game_log(request):
+    game_id = request.data.get('game_id')
+    token = request.data.get('token')
+    try:
+        game = Game.objects.get(pk=int(game_id))
+    except Game.DoesNotExist:
+        return Response("Game not found", status=HTTP_404_NOT_FOUND)
+    except ValueError:
+        return Response("ID format incorrect", status=HTTP_400_BAD_REQUEST)
+    if not game.log_file:
+        return Response("Game has no log file", status=HTTP_404_NOT_FOUND)
+    if game.token != token:
+        return Response("Invalid token", status=HTTP_401_UNAUTHORIZED)
+    with open(game.log_file.path, 'r') as lf:
+        log_text = lf.read()
+    return Response(log_text)
