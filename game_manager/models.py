@@ -59,7 +59,7 @@ class Game(models.Model):
         return 'GAME: {} vs {} - {}'.format(self.request.sender.name, self.request.receiver.name, self.status)
 
     def get_log_base64(self):
-        if self.log_file is None:
+        if not self.log_file:
             return ''
         with open(self.log_file.path, 'rb') as log_file:
             return base64.b64encode(log_file.read()).decode()
