@@ -215,9 +215,8 @@ def set_final_code(request):
 
 
 @api_view(['GET'])
-@permission_classes([AllowAny])
 def get_available_teams(request):
     teams = []
-    for team in Team.objects.all():
+    for team in Team.objects.filter(uploaded_codes__is_final=True).order_by('name'):
         teams.append({'id': team.pk, 'name': team.name})
     return Response(teams)
