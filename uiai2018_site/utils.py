@@ -9,5 +9,4 @@ def get_jdatetime(dt):
     t = timezone.localtime(dt, pytz.timezone('Iran'))
     strdate = str(d.year) + '/' + str(d.month) + '/' + str(d.day)
     strtime = t.strftime('%H:%M')
-    print(strdate, strtime)
     return strdate + ' - ' + strtime
