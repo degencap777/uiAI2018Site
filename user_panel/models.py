@@ -226,7 +226,7 @@ class Code(models.Model):
                 self.compilation_status = Code.COMPILATION_OK
                 self.compile_status_text = 'کد جاوا شما با موفقیت کامپایل شد.'
                 self.save()
-            elif p.returncode == 2:
+            else:
                 self.compilation_status = Code.COMPILATION_ERROR
                 self.compile_status_text = p.stdout.decode("utf-8")
                 self.save()
@@ -239,7 +239,7 @@ class Code(models.Model):
                 self.compilation_status = Code.COMPILATION_OK
                 self.compile_status_text = 'کد ++C شما با موفقیت کامپایل شد.'
                 self.save()
-            elif p.returncode == 1:
+            else:
                 self.compilation_status = Code.COMPILATION_ERROR
                 self.compile_status_text = p.stdout.decode("utf-8")
                 self.save()
