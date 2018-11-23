@@ -35,6 +35,7 @@ class Comment(models.Model):
     text = models.TextField(max_length=1024)
     date = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
+    reply = models.TextField(max_length=8192, blank=True, null=True)
 
     def __str__(self):
         return '{} - {}'.format(self.full_name, self.post.title)
