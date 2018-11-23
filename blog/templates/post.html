@@ -20,7 +20,7 @@
         <article class="card">
             <header>
                 <h1 class="post-full-title">{{ post.title }}</h1>
-                <p>تاریخ: {{ post.date }}</p>
+                <p>تاریخ: {{ post.get_jdate }}</p>
             </header>
             {% autoescape off %}<p>{{ post.text }}</p>{% endautoescape %}
         </article>
@@ -31,7 +31,7 @@
                 <div class="comment">
                     <header>
                         <h5>{{ comment.user.get_full_name }}</h5>
-                        <time>تاریخ: {{ comment.date }}</time>
+                        <time>تاریخ: {{ comment.get_jdate }}</time>
                     </header>
                     <p>{{ comment.text }}</p>
                 </div>

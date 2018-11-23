@@ -23,7 +23,7 @@
                     <h2>
                         <a href="{% url 'view_post' pk=post.pk %}">{{ post.title }}</a>
                     </h2>
-                    <p>تاریخ: {{ post.date }} / نظرات: {{ post.approved_comment_count }}</p>
+                    <p>تاریخ: {{ post.get_jdate }} / نظرات: {{ post.approved_comment_count }}</p>
                 </header>
                 <p>{{ post.summary }}</p>
             </article>

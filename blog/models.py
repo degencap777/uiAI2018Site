@@ -1,5 +1,6 @@
 from django.db import models
 
+from uiai2018_site.utils import get_jdatetime
 from user_panel.models import User
 
 
@@ -11,6 +12,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_jdate(self):
+        return get_jdatetime(self.date)
 
     @property
     def comment_count(self):
@@ -34,3 +38,6 @@ class Comment(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.full_name, self.post.title)
+
+    def get_jdate(self):
+        return get_jdatetime(self.date)

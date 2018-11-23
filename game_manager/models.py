@@ -1,6 +1,7 @@
 import base64
 
 from django.db import models
+from uiai2018_site.utils import get_jdatetime
 
 
 class GameRequest(models.Model):
@@ -29,7 +30,7 @@ class GameRequest(models.Model):
             'receiver_id': self.receiver.pk,
             'receiver_name': self.receiver.name,
             'status': self.get_status_display(),
-            'date': self.date,
+            'date': get_jdatetime(self.date) if self.date else '-',
         }
 
 
@@ -73,7 +74,7 @@ class Game(models.Model):
             'team2_name': self.logged_team2_name,
             'team2_goals': self.logged_team2_goals,
             'log_file': self.get_log_base64(),
-            'run_date': self.run_date,
+            'run_date': get_jdatetime(self.run_date) if self.run_date else '-',
         }
 
     def get_result_string(self):
