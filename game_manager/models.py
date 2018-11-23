@@ -74,7 +74,7 @@ class Game(models.Model):
             'team2_name': self.logged_team2_name,
             'team2_goals': self.logged_team2_goals,
             'log_file': self.get_log_base64(),
-            'run_date': get_jdatetime(self.run_date) if self.run_date else None,
+            'run_date': get_jdatetime(self.run_date) if self.run_date else get_jdatetime(self.request.date),
         }
 
     def get_result_string(self):
