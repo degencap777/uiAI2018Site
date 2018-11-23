@@ -105,8 +105,8 @@ def get_game_info(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def get_game_log(request):
-    game_id = request.data.get('game_id')
-    token = request.data.get('token')
+    game_id = request.GET.get('game_id')
+    token = request.GET.get('token')
     try:
         game = Game.objects.get(pk=int(game_id))
     except Game.DoesNotExist:
