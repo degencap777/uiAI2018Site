@@ -1,6 +1,8 @@
 import os
 from datetime import timedelta
 
+from uiai2018_site import secret_settings
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = '_t&%$%vnb&)2d+q0(spwdap5$yzg23_q9cfhmeg#%-au2eu3jv'
@@ -22,6 +24,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_summernote',
     'rest_framework',
+    'django_rest_passwordreset',
     'background_task',
     'main',
     'user_panel',
@@ -171,3 +174,9 @@ SUMMERNOTE_THEME = 'bs4'
 GAME_RUNNER_SERVERS = ['http://127.0.0.1:8888', 'http://172.16.20.9:8888', 'http://172.16.20.10:8888']
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = secret_settings.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = secret_settings.EMAIL_HOST_PASSWORD
+EMAIL_PORT = 587
