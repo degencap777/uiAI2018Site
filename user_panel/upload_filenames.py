@@ -13,3 +13,7 @@ class OverwriteStorage(FileSystemStorage):
 
 def team_logo(instance, filename):
     return os.path.join('upload', 'team_logos', instance.name + '.png')
+
+
+def code_filename(instance, filename):
+    return os.path.join('codes', instance.team.name, filename)
