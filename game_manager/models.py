@@ -74,6 +74,7 @@ class Game(models.Model):
             'team2_goals': self.logged_team2_goals,
             'log_file': self.get_log_base64(),
             'run_date': self.run_date if self.run_date else self.request.date,
+            'token': self.token,
         }
 
     def get_result_string(self):
