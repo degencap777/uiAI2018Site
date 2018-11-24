@@ -10,3 +10,4 @@ django-summernote
 django-simple-captcha
 requests
 django-background-tasks
+django-cors-headers
