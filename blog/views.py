@@ -6,7 +6,7 @@ from blog import models, forms
 
 
 def blog(request):
-    context = {'posts': models.Post.objects.all()}
+    context = {'posts': models.Post.objects.all().order_by('-date')}
     return render(request, 'blog.html', context)
 
 
