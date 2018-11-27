@@ -11,12 +11,13 @@ from django.contrib.sites.shortcuts import get_current_site
 
 from game_manager.models import *
 from user_panel.models import *
-from user_panel.decorators import team_required
+from user_panel.decorators import *
 from game_manager import tasks
 
 
 @api_view(['POST'])
 @team_required
+@final_code_required
 def send_game_request(request):
     try:
         receiver = Team.objects.get(pk=int(request.data.get('team_id')))
@@ -32,6 +33,7 @@ def send_game_request(request):
 
 @api_view(['POST'])
 @team_required
+@final_code_required
 def accept_game_request(request):
     try:
         game_request = GameRequest.objects.get(pk=int(request.data.get('request_id')))
