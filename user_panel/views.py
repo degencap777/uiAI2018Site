@@ -4,12 +4,24 @@ from rest_framework.parsers import MultiPartParser
 
 from user_panel.models import *
 from user_panel.decorators import *
+from game_manager.models import *
 
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def get_settings(request):
     return Response(dict((s.key, s.value) for s in Settings.objects.all()))
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_statistics(request):
+    return Response({
+        'count_user': User.objects.all().count(),
+        'count_team': Team.objects.all().count(),
+        'count_code': Code.objects.all().count(),
+        'count_game': Game.objects.all().count(),
+    })
 
 
 @api_view(['POST'])
