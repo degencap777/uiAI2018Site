@@ -1,7 +1,7 @@
 {
   "main.css": "/uiai2018/static/main/static/static/css/main.b27af98d.chunk.css",
-  "main.js": "/uiai2018/static/main/static/static/js/main.c431b2f5.chunk.js",
-  "main.js.map": "/uiai2018/static/main/static/static/js/main.c431b2f5.chunk.js.map",
+  "main.js": "/uiai2018/static/main/static/static/js/main.173be261.chunk.js",
+  "main.js.map": "/uiai2018/static/main/static/static/js/main.173be261.chunk.js.map",
   "static/css/1.946fe081.chunk.css": "/uiai2018/static/main/static/static/css/1.946fe081.chunk.css",
   "static/js/1.50ace1f7.chunk.js": "/uiai2018/static/main/static/static/js/1.50ace1f7.chunk.js",
   "static/js/1.50ace1f7.chunk.js.map": "/uiai2018/static/main/static/static/js/1.50ace1f7.chunk.js.map",
@@ -45,10 +45,10 @@
   "static/media/acm.png": "/uiai2018/static/main/static/static/media/acm.225f3880.png",
   "static/media/ui_logo.png": "/uiai2018/static/main/static/static/media/ui_logo.3f2623a4.png",
   "static/media/Hero.module.css": "/uiai2018/static/main/static/static/media/bgPattern.80b6d398.jpg",
-  "static/media/font-face.css": "/uiai2018/static/main/static/static/media/Vazir-Medium.11ef813d.ttf",
+  "static/media/font-face.css": "/uiai2018/static/main/static/static/media/Vazir-Medium.25b78a6e.eot",
   "static/css/main.b27af98d.chunk.css.map": "/uiai2018/static/main/static/static/css/main.b27af98d.chunk.css.map",
   "static/css/1.946fe081.chunk.css.map": "/uiai2018/static/main/static/static/css/1.946fe081.chunk.css.map",
   "index.html": "/uiai2018/static/main/static/index.html",
-  "precache-manifest.1b2e7735201f4281dec00badf3446a60.js": "/uiai2018/static/main/static/precache-manifest.1b2e7735201f4281dec00badf3446a60.js",
+  "precache-manifest.3021dbd98124b81bca75dd6354ab5aa4.js": "/uiai2018/static/main/static/precache-manifest.3021dbd98124b81bca75dd6354ab5aa4.js",
   "service-worker.js": "/uiai2018/static/main/static/service-worker.js"
 }
