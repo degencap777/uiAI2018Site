@@ -1,7 +1,7 @@
-import glob
+import json
 import os
-import subprocess
 import zipfile
+import requests
 
 from django.contrib.auth.password_validation import validate_password
 from django.db import models
@@ -11,6 +11,7 @@ from django.core.exceptions import ValidationError
 from uiai2018_site.settings import BASE_DIR
 from user_panel import upload_filenames, validators
 from game_manager import models as game_manager_models
+from game_manager.server_api import get_best_server
 
 
 class UserManager(BaseUserManager):
@@ -209,38 +210,11 @@ class Code(models.Model):
             z.extractall(self.get_extraction_path())
 
     def compile(self):
-        if self.language == Code.PYTHON:
-            self.compile_status_text = 'بدون نیاز به کامپایل'
-            self.compilation_status = Code.COMPILATION_OK
-            self.save()
-        elif self.language == Code.JAVA:
-            self.compilation_status = Code.COMPILING
-            self.save()
-            client_files = glob.glob(os.path.join(self.get_extraction_path(), '*.java'))
-            subprocess.run(['rm', '-r', 'out'], cwd=self.get_extraction_path())
-            subprocess.run(['mkdir', 'out'], cwd=self.get_extraction_path())
-            p = subprocess.run(['javac'] + client_files + ['-d', 'out'], cwd=self.get_extraction_path(),
-                               stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
-            if p.returncode == 0:
-                self.compilation_status = Code.COMPILATION_OK
-                self.compile_status_text = 'کد جاوا شما با موفقیت کامپایل شد.'
-                self.save()
-            else:
-                self.compilation_status = Code.COMPILATION_ERROR
-                self.compile_status_text = p.stdout.decode("utf-8")
-                self.save()
-        elif self.language == Code.CPP:
-            client_files = glob.glob(os.path.join(self.get_extraction_path(), '*.cpp'))
-            subprocess.run(['rm', 'out'], cwd=self.get_extraction_path())
-            p = subprocess.run(['g++', '-std=gnu++11'] + client_files + ['-o', 'out'], cwd=self.get_extraction_path(),
-                               stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
-            if p.returncode == 0:
-                self.compilation_status = Code.COMPILATION_OK
-                self.compile_status_text = 'کد ++C شما با موفقیت کامپایل شد.'
-                self.save()
-            else:
-                self.compilation_status = Code.COMPILATION_ERROR
-                self.compile_status_text = p.stdout.decode("utf-8")
-                self.save()
-        subprocess.run(['rm', '-r', self.get_extraction_path()])
+        data = {'id': self.pk, 'language': self.language}
+        file = {'code': open(self.code_zip.path, 'rb')}
+        server = get_best_server()
+        r = requests.post('{}/api/compile/request/'.format(server), data=data, files=file)
+        self.compilation_status = r.json()['status']
+        self.compile_status_text = r.json()['message']
+        self.save()
         return self.compilation_status
