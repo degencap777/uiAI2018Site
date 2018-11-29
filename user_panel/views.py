@@ -27,6 +27,7 @@ def get_statistics(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def sign_up(request):
+    return Response({'message': 'مهلت ثبت‌نام به پایان رسیده.'}, status=HTTP_403_FORBIDDEN)
     try:
         User.objects.create_user(
             email=request.data.get('email'),
