@@ -2,6 +2,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.parsers import MultiPartParser
 
+from uiai2018_site import settings
 from user_panel.models import *
 from user_panel.decorators import *
 from game_manager.models import *
@@ -27,7 +28,8 @@ def get_statistics(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def sign_up(request):
-    return Response({'message': 'مهلت ثبت‌نام به پایان رسیده.'}, status=HTTP_403_FORBIDDEN)
+    if not settings.REGISTRATION_OPEN:
+        return Response({'message': 'مهلت ثبت‌نام به پایان رسیده.'}, status=HTTP_403_FORBIDDEN)
     try:
         User.objects.create_user(
             email=request.data.get('email'),
