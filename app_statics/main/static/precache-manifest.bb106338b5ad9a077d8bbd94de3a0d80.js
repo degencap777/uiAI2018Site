@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/uiai2018/static/main/static/static/media/stf14.3d46ff7a.jpg"
   },
   {
-    "revision": "9033880b5b5d4925a507",
+    "revision": "1c0e0b4c2990a1c3539c",
     "url": "/uiai2018/static/main/static/static/css/main.0f6ec9d8.chunk.css"
   },
   {
@@ -136,8 +136,8 @@ self.__precacheManifest = [
     "url": "/uiai2018/static/main/static/static/media/stf13.729cb60f.jpg"
   },
   {
-    "revision": "9033880b5b5d4925a507",
-    "url": "/uiai2018/static/main/static/static/js/main.9033880b.chunk.js"
+    "revision": "1c0e0b4c2990a1c3539c",
+    "url": "/uiai2018/static/main/static/static/js/main.1c0e0b4c.chunk.js"
   },
   {
     "revision": "434892e86657a80ced31cfba6de6d7ce",
@@ -224,28 +224,28 @@ self.__precacheManifest = [
     "url": "/uiai2018/static/main/static/static/media/Vazir-Medium.6134834d.woff"
   },
   {
-    "revision": "91dd41e5f2b05c3c207a81f6f952fbd4",
-    "url": "/uiai2018/static/main/static/static/media/Vazir.91dd41e5.eot"
-  },
-  {
     "revision": "3bb6491e3a7c084399896a492e5dd618",
     "url": "/uiai2018/static/main/static/static/media/Vazir.3bb6491e.ttf"
   },
   {
-    "revision": "d00f44216fda6aef5873d083017fdd15",
-    "url": "/uiai2018/static/main/static/static/media/Vazir-Bold.d00f4421.ttf"
+    "revision": "91dd41e5f2b05c3c207a81f6f952fbd4",
+    "url": "/uiai2018/static/main/static/static/media/Vazir.91dd41e5.eot"
   },
   {
     "revision": "b358a632638ddc12101a6dafd633b625",
     "url": "/uiai2018/static/main/static/static/media/Vazir-Bold.b358a632.eot"
   },
   {
-    "revision": "5a7ca35b2f17908beb216ea97cce08a8",
-    "url": "/uiai2018/static/main/static/static/media/Vazir-Thin.5a7ca35b.ttf"
+    "revision": "d00f44216fda6aef5873d083017fdd15",
+    "url": "/uiai2018/static/main/static/static/media/Vazir-Bold.d00f4421.ttf"
   },
   {
     "revision": "51d16771c8bf9759531066861015353f",
     "url": "/uiai2018/static/main/static/static/media/Vazir-Thin.51d16771.eot"
+  },
+  {
+    "revision": "5a7ca35b2f17908beb216ea97cce08a8",
+    "url": "/uiai2018/static/main/static/static/media/Vazir-Thin.5a7ca35b.ttf"
   },
   {
     "revision": "d45d679ecbbf3e85f6fe924a3349611e",
@@ -256,12 +256,12 @@ self.__precacheManifest = [
     "url": "/uiai2018/static/main/static/static/media/Vazir-Black.dec57885.ttf"
   },
   {
-    "revision": "81fd1bcee68b84a31baa21aeb277d7e8",
-    "url": "/uiai2018/static/main/static/static/media/Vazir-Light.81fd1bce.eot"
-  },
-  {
     "revision": "11bc0b0762f1ba3f8393eda4a4d96984",
     "url": "/uiai2018/static/main/static/static/media/Vazir-Light.11bc0b07.ttf"
+  },
+  {
+    "revision": "81fd1bcee68b84a31baa21aeb277d7e8",
+    "url": "/uiai2018/static/main/static/static/media/Vazir-Light.81fd1bce.eot"
   },
   {
     "revision": "25b78a6e8f255ab89e160c7e4ca30ebb",
@@ -272,7 +272,7 @@ self.__precacheManifest = [
     "url": "/uiai2018/static/main/static/static/css/1.7e7c2056.chunk.css"
   },
   {
-    "revision": "c8288c31b90175be9f65742d26a28a3c",
+    "revision": "59cb111bb58fa8b3683886e87bf358bf",
     "url": "/uiai2018/static/main/static/index.html"
   }
 ];
