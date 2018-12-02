@@ -3,10 +3,10 @@ import requests
 from uiai2018_site.settings import GAME_RUNNER_SERVERS
 
 
-def get_best_server():
+def get_best_server(for_compile=False):
     for server in GAME_RUNNER_SERVERS:
         try:
-            r = requests.get('{}/api/server/status/'.format(server))
+            r = requests.get('{}/api/server/status/'.format(server), params={'for_compile': for_compile})
             if r.status_code == 200:
                 return server
         except BaseException:

@@ -211,7 +211,7 @@ class Code(models.Model):
     def compile(self):
         data = {'id': self.pk, 'language': self.language}
         file = {'code': open(self.code_zip.path, 'rb')}
-        server = get_best_server()
+        server = get_best_server(for_compile=True)
         r = requests.post('{}/api/compile/request/'.format(server), data=data, files=file)
         self.compilation_status = r.json()['status']
         self.compile_status_text = r.json()['message']
