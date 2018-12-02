@@ -25,6 +25,6 @@ def add_game_to_queue(game_id, callback_url):
         game.status = Game.ERROR
     elif code == -1:
         game.status = Game.WAITING
-        add_game_to_queue(game_id, callback_url, schedule=240)
+        add_game_to_queue(game_id, callback_url, schedule=30)
     game.save()
     return success
