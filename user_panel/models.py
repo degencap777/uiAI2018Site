@@ -115,7 +115,6 @@ class Team(models.Model):
     def get_dict(self):
         return {
             'name': self.name,
-            'logo': self.logo.url,
             'members': [member.email for member in self.members.all()[:3]],
             'uploaded_codes': [code.get_dict() for code in self.uploaded_codes.all()],
             'received_game_requests': [r.get_dict() for r in self.received_game_requests.all()],
