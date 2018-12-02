@@ -18,13 +18,13 @@ def request_game_run(client1_name, client1_path, client1_language,
                      game_id, token, callback_url):
     game_server = get_best_server()
     if game_server is None:
-        return False, 'سروری برای اجرای بازی پیدا نشد.'
+        return False, 'سروری برای اجرای بازی پیدا نشد.', -1
     files = {'team1_code': open(client1_path, 'rb'), 'team2_code': open(client2_path, 'rb')}
     data = {'team1_name': client1_name, 'team1_language': client1_language,
             'team2_name': client2_name, 'team2_language': client2_language,
             'game_id': game_id, 'token': token, 'callback_url': callback_url}
     r = requests.post('{}/api/game/request/'.format(game_server), files=files, data=data)
     if r.status_code == 201:
-        return True, 'بازی برای اجرا به سرور شماره {} ارسال شد.'.format(GAME_RUNNER_SERVERS.index(game_server))
+        return True, 'بازی برای اجرا به سرور شماره {} ارسال شد.'.format(GAME_RUNNER_SERVERS.index(game_server)), 0
     else:
-        return False, 'خطا در ارسال بازی به سرور: {}'.format(r.text)
+        return False, 'خطا در ارسال بازی به سرور: {}'.format(r.text), -2
