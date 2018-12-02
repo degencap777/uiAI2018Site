@@ -68,9 +68,9 @@ class Game(models.Model):
         return {
             'id': self.pk,
             'status': self.get_status_display(),
-            'team1_name': self.logged_team1_name,
+            'team1_name': self.logged_team1_name if self.logged_team1_name else self.get_request_sender_team().name,
             'team1_goals': self.logged_team1_goals,
-            'team2_name': self.logged_team2_name,
+            'team2_name': self.logged_team2_name if self.logged_team2_name else self.get_request_receiver_team().name,
             'team2_goals': self.logged_team2_goals,
             'log_file': self.get_log_base64(),
             'run_date': self.run_date if self.run_date else self.request.date,
