@@ -7,7 +7,7 @@ def get_best_server():
     for server in GAME_RUNNER_SERVERS:
         try:
             r = requests.get('{}/api/server/status/'.format(server))
-            if r.json()['code'] == 200:
+            if r.status_code == 200:
                 return server
         except BaseException:
             pass
@@ -24,7 +24,7 @@ def request_game_run(client1_name, client1_path, client1_language,
             'team2_name': client2_name, 'team2_language': client2_language,
             'game_id': game_id, 'token': token, 'callback_url': callback_url}
     r = requests.post('{}/api/game/request/'.format(game_server), files=files, data=data)
-    if r.status_code == 200:
+    if r.status_code == 201:
         return True, 'بازی برای اجرا به سرور شماره {} ارسال شد.'.format(GAME_RUNNER_SERVERS.index(game_server)), 0
     else:
         return False, 'خطا در ارسال بازی به سرور: {}'.format(r.text), -2
