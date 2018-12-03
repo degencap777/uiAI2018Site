@@ -27,15 +27,15 @@ class Command(BaseCommand):
         reqs = []
         games = []
         i = 0
-        for t1 in teams:
-            for t2 in teams:
-                if t1 != t2:
-                    print('{}: {} vs {}'.format(i, t1.name, t2.name))
-                    i += 1
-                    req = GameRequest.objects.create(sender=t1, receiver=t2, is_hidden=True)
-                    reqs.append(req)
-                    token = 'QUAL{}-{}-{}'.format(req.pk, int(time.time()), random.randint(100000, 1000000))
-                    games.append(Game.objects.create(request=req, token=token, game_type=Game.QUALIFICATION))
+        for i1 in range(0, len(teams)):
+            for i2 in range(i1 + 1, len(teams)):
+                t1, t2 = teams[i1], teams[i2]
+                i += 1
+                print('{}: {} vs {}'.format(i, t1.name, t2.name))
+                req = GameRequest.objects.create(sender=t1, receiver=t2, is_hidden=True)
+                reqs.append(req)
+                token = 'QUAL{}-{}-{}'.format(req.pk, int(time.time()), random.randint(100000, 1000000))
+                games.append(Game.objects.create(request=req, token=token, game_type=Game.QUALIFICATION))
         if input("Run games? [y/n] ").lower() != 'y':
             return
         Command.run_games(games)
