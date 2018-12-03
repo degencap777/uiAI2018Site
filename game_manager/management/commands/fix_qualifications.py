@@ -10,7 +10,10 @@ from game_manager import server_api
 class Command(BaseCommand):
     def handle(self, *args, **options):
         games = Game.objects.filter(game_type=Game.QUALIFICATION, status=Game.PLAYING)
+        i = 0
         for game in games:
+            if i % 8 == 7:
+                time.sleep(10)
             print('RUNNING {}: {} vs {}'.format(game.pk, game.get_request_sender_team().name,
                                                 game.get_request_receiver_team().name))
             ok, msg, code = server_api.request_game_run(
@@ -29,4 +32,3 @@ class Command(BaseCommand):
             else:
                 print('WAITING: {}'.format(code))
                 time.sleep(10)
-            time.sleep(5)
