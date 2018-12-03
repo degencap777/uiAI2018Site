@@ -1,5 +1,5 @@
+import time
 import random
-from time import time
 
 from django.core.management import BaseCommand
 from django.urls import reverse
@@ -12,19 +12,30 @@ from game_manager import tasks
 class Command(BaseCommand):
 
     @staticmethod
-    def run_game(id):
-        tasks.add_game_to_queue(id, 'acm.ui.ac.ir/' + reverse('callback_game_status'))
+    def run_games(games: list):
+        for i, game in enumerate(games):
+            if i % 7 == 0:
+                time.sleep(10)
+            tasks.add_game_to_queue(game.pk, 'acm.ui.ac.ir/' + reverse('callback_game_status'))
 
     def handle(self, *args, **options):
         teams = [code.team for code in Code.objects.filter(is_final=True)]
-        print('TEAMS\nID\tNAME', '\n'.join(('{}\t{}'.format(t.pk, t.name) for t in teams)))
-        if input("Create games? [y/n]").lower() != 'y':
+        teams = sorted(teams, key=lambda t: t.pk)
+        print('{} TEAMS\nID\tNAME'.format(len(teams)), '\n'.join(('{}\t{}'.format(t.pk, t.name) for t in teams)))
+        if input("Create games? [y/n] ").lower() != 'y':
             return
+        reqs = []
         games = []
+        i = 0
         for t1 in teams:
             for t2 in teams:
                 if t1 != t2:
+                    print('{}: {} vs {}'.format(i, t1.name, t2.name))
+                    i += 1
                     req = GameRequest.objects.create(sender=t1, receiver=t2, is_hidden=True)
-                    token = 'QUAL{}-{}-{}'.format(req.pk, int(time()), random.randint(100000, 1000000))
-                    game = Game.objects.create(request=req, token=token)
-                    pass
+                    reqs.append(req)
+                    token = 'QUAL{}-{}-{}'.format(req.pk, int(time.time()), random.randint(100000, 1000000))
+                    games.append(Game.objects.create(request=req, token=token, game_type=Game.QUALIFICATION))
+        if input("Run games? [y/n] ").lower() != 'y':
+            return
+        Command.run_games(games)
