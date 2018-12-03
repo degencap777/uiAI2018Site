@@ -36,6 +36,8 @@ def send_game_request(request):
 @team_required
 @final_code_required
 def accept_game_request(request):
+    if not settings.FRIENDLY_GAMES_OPEN:
+        return Response({'message': 'امکان اجرای بازی دوستانه موقتاً بسته شده.'}, status=HTTP_410_GONE)
     try:
         game_request = GameRequest.objects.get(pk=int(request.data.get('request_id')))
     except ValueError:
