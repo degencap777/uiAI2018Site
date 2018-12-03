@@ -44,6 +44,14 @@ class Game(models.Model):
         (FINISHED, 'پایان یافته'),
         (ERROR, 'خطا در اجرای بازی')
     )
+    FRIENDLY = 'FRIENDLY'
+    QUALIFICATION = 'QUALIFICATION'
+    FINALS = 'FINALS'
+    TYPE_OPTIONS = (
+        (FRIENDLY, 'دوستانه'),
+        (QUALIFICATION, 'انتخابی'),
+        (FINALS, 'نهایی')
+    )
     request = models.OneToOneField(GameRequest, on_delete=models.CASCADE)
     status = models.CharField(max_length=8, choices=STATUS_OPTIONS, default=WAITING)
     status_text = models.TextField(max_length=8192, blank=True, null=True)
@@ -54,6 +62,7 @@ class Game(models.Model):
     log_file = models.FileField(upload_to='logs', blank=True, null=True)
     token = models.CharField(max_length=64)
     run_date = models.DateTimeField(blank=True, null=True)
+    game_type = models.CharField(max_length=16, choices=TYPE_OPTIONS, default=FRIENDLY)
 
     def __str__(self):
         return 'GAME: {} vs {} - {}'.format(self.request.sender.name, self.request.receiver.name, self.status)
@@ -75,6 +84,7 @@ class Game(models.Model):
             'log_file': self.get_log_base64(),
             'run_date': self.run_date if self.run_date else self.request.date,
             'token': self.token,
+            'type': self.get_game_type_display(),
         }
 
     def get_result_string(self):
