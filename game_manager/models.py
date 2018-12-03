@@ -17,6 +17,7 @@ class GameRequest(models.Model):
     receiver = models.ForeignKey('user_panel.Team', on_delete=models.CASCADE, related_name='received_game_requests')
     status = models.CharField(max_length=8, choices=STATUS_OPTIONS, default=PENDING)
     date = models.DateTimeField(auto_now_add=True)
+    is_hidden = models.BooleanField(default=False)
 
     def __str__(self):
         return 'REQ: {} vs {} - {}'.format(self.sender.name, self.receiver.name, self.status)

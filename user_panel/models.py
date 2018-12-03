@@ -117,8 +117,8 @@ class Team(models.Model):
             'name': self.name,
             'members': [member.email for member in self.members.all()[:3]],
             'uploaded_codes': [code.get_dict() for code in self.uploaded_codes.all()],
-            'received_game_requests': [r.get_dict() for r in self.received_game_requests.all()],
-            'sent_game_requests': [r.get_dict() for r in self.sent_game_requests.all()],
+            'received_game_requests': [r.get_dict() for r in self.received_game_requests.filter(is_hidden=False)],
+            'sent_game_requests': [r.get_dict() for r in self.sent_game_requests.filter(is_hidden=False)],
             'games': [g.get_dict() for g in self.get_games()],
         }
 
