@@ -14,6 +14,7 @@ class Command(BaseCommand):
         for game in games:
             if i % 8 == 7:
                 time.sleep(10)
+            i += 1
             print('RUNNING {}: {} vs {}'.format(game.pk, game.get_request_sender_team().name,
                                                 game.get_request_receiver_team().name))
             ok, msg, code = server_api.request_game_run(
