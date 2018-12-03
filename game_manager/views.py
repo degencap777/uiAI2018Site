@@ -1,3 +1,4 @@
+import random
 from time import time
 from datetime import datetime
 
@@ -45,7 +46,7 @@ def accept_game_request(request):
         return Response({'message': 'شما قادر به تایید این بازی نیستید.'}, status=HTTP_403_FORBIDDEN)
     game_request.status = GameRequest.ACCEPTED
     game_request.save()
-    game = Game(request=game_request, token=str(int(time())))
+    game = Game(request=game_request, token=str(random.randint(100000, 1000000)))
     game.save()
     success = tasks.add_game_to_queue(game.pk, str(get_current_site(request)) + reverse('callback_game_status'))
     if success:

@@ -2,7 +2,6 @@ from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.parsers import MultiPartParser
 
-from uiai2018_site import settings
 from user_panel.models import *
 from user_panel.decorators import *
 from game_manager.models import *
@@ -27,9 +26,8 @@ def get_statistics(request):
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
+@check_registration_deadline
 def sign_up(request):
-    if not settings.REGISTRATION_OPEN:
-        return Response({'message': 'مهلت ثبت‌نام به پایان رسیده.'}, status=HTTP_403_FORBIDDEN)
     try:
         User.objects.create_user(
             email=request.data.get('email'),
@@ -67,6 +65,7 @@ def edit_user_info(request):
 
 
 @api_view(['POST'])
+@check_registration_deadline
 def create_team(request):
     team_name = request.data.get('name')
     if not team_name:
@@ -104,6 +103,7 @@ def get_team_info(request):
 
 @api_view(['POST'])
 @team_required
+@check_registration_deadline
 def send_team_invitation(request):
     receiver_email = request.data.get('email')
     try:
@@ -119,6 +119,7 @@ def send_team_invitation(request):
 
 
 @api_view(['POST'])
+@check_registration_deadline
 def accept_team_invitation(request):
     if request.user.team is not None:
         return Response({'message': 'شما در یک تیم عضو هستید و نمی‌توانید دعوت‌نامه‌ای را بپذیرید.'},
@@ -161,6 +162,7 @@ def reject_team_invitation(request):
 
 @api_view(['POST'])
 @team_required
+@check_registration_deadline
 def leave_team(request):
     team_name = request.user.team.name
     request.user.team = None
@@ -186,6 +188,7 @@ def get_version(request):
 @api_view(['POST'])
 @parser_classes([MultiPartParser])
 @team_required
+@check_upload_deadline
 def upload_code(request):
     language = request.data.get('language')
     zip_file = request.data.get('zip_file')
@@ -207,6 +210,7 @@ def upload_code(request):
 
 @api_view(['POST'])
 @team_required
+@check_upload_deadline
 def set_final_code(request):
     try:
         code = Code.objects.get(pk=int(request.data.get('id')))
