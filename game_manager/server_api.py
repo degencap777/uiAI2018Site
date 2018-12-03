@@ -4,13 +4,15 @@ from uiai2018_site.settings import GAME_RUNNER_SERVERS
 
 
 def get_best_server(for_compile=False):
+    best_server, count = None, 8
     for server in GAME_RUNNER_SERVERS:
         try:
             r = requests.get('{}/api/server/status/'.format(server), params={'for_compile': for_compile})
-            if r.status_code == 200:
-                return server
+            if r.status_code == 200 and int(r.json()['running_count']) < count:
+                best_server = server
         except BaseException:
             pass
+    return best_server
 
 
 def request_game_run(client1_name, client1_path, client1_language,
