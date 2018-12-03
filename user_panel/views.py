@@ -135,6 +135,8 @@ def accept_team_invitation(request):
         return Response({'message': 'این دعوت‌نامه مربوط به شما نیست.'}, status=HTTP_403_FORBIDDEN)
     if invitation.status != TeamInvitation.PENDING:
         return Response({'message': 'دعوت‌نامه فاقد اعتبار است.'}, status=HTTP_403_FORBIDDEN)
+    if invitation.sender.team.members.count() >= 3:
+        return Response({'message': 'تیم‌ها حداکثر ۳ نفره می‌باشند.'}, status=HTTP_403_FORBIDDEN)
     request.user.team = invitation.team
     request.user.save()
     invitation.status = TeamInvitation.ACCEPTED
