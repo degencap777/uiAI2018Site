@@ -19,7 +19,8 @@ class Command(BaseCommand):
             tasks.add_game_to_queue(game.pk, 'acm.ui.ac.ir/' + reverse('callback_game_status'))
 
     def handle(self, *args, **options):
-        teams = [code.team for code in Code.objects.filter(is_final=True)]
+        test_ids = [29, 39, 74, 75]
+        teams = [code.team for code in Code.objects.filter(is_final=True) if code.team.pk not in test_ids]
         teams = sorted(teams, key=lambda t: t.pk)
         print('{} TEAMS\nID\tNAME'.format(len(teams)), '\n'.join(('{}\t{}'.format(t.pk, t.name) for t in teams)))
         if input("Create games? [y/n] ").lower() != 'y':
