@@ -14,7 +14,7 @@ class Command(BaseCommand):
     @staticmethod
     def run_games(games: list):
         for i, game in enumerate(games):
-            if i % 7 == 0:
+            if i % 7 == 8:
                 time.sleep(10)
             tasks.add_game_to_queue(game.pk, 'acm.ui.ac.ir/' + reverse('callback_game_status'))
 
