@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from rest_framework.decorators import api_view
 
-from uiai2018_site.settings import PAYMENT_API_KEY, PAYMENT_AMOUNT
+from uiai2018_site.settings import PAYMENT_API_KEY, PAYMENT_AMOUNT, TEST_TEAM_PKS
 from user_panel.decorators import *
 from user_panel.models import Team
 
@@ -16,7 +16,7 @@ def begin_transaction(request):
     factor_number = 'UIAI2018-{}'.format(team.pk)
     data = {
         'api': PAYMENT_API_KEY,
-        'amount': PAYMENT_AMOUNT,
+        'amount': PAYMENT_AMOUNT if request.user.team not in TEST_TEAM_PKS else 1000,
         'redirect': 'http://acm.ui.ac.ir/uiai2018/api/payment/callback/',
         'mobile': request.user.phone,
         'factor_number': factor_number,
