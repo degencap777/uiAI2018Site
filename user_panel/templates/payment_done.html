@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>مشخصات پرداخت</title>
+</head>
+<body>
+{% if error %}
+    <h1 style="color: red">پرداخت با خطا مواجه شد</h1>
+    <p>{{ message }}</p>
+{% else %}
+    <h1 style="color: green">پرداخت با موفقیت انجام شد</h1>
+    <p>{{ message|linebreaksbr }}</p>
+{% endif %}
+</body>
+</html>

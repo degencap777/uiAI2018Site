@@ -89,6 +89,15 @@ class User(AbstractUser):
 class Team(models.Model):
     name = models.CharField(max_length=16, unique=True, validators=[validators.team_name_validator])
     logo = models.ImageField(upload_to=upload_filenames.team_logo, default='default_team_logo.png')
+    qualified = models.BooleanField(default=False)
+    payment_amount = models.IntegerField(default=0)
+    transaction_id1 = models.CharField(max_length=255, blank=True, null=True)
+    transaction_id2 = models.CharField(max_length=255, blank=True, null=True)
+    factor_number = models.CharField(max_length=255, blank=True, null=True)
+    card_number = models.CharField(max_length=255, blank=True, null=True)
+    trace_number = models.CharField(max_length=255, blank=True, null=True)
+    payment_message = models.TextField(max_length=1024, blank=True, null=True)
+    payment_verified = models.BooleanField(default=False)
 
     def get_member1(self):
         return self.members.all()[0] if self.members.count() > 0 else None

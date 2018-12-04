@@ -12,8 +12,9 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class TeamAdmin(admin.ModelAdmin):
-    list_display = ['name', 'get_member1', 'get_member2', 'get_member3']
+    list_display = ['name', 'get_member1', 'get_member2', 'get_member3', 'qualified', 'payment_verified']
     search_fields = ['name']
+    list_filter = ['qualified', 'payment_verified']
 
 
 class CodeAdmin(admin.ModelAdmin):

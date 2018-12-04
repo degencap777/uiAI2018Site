@@ -2,6 +2,7 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from user_panel.views import *
+from user_panel import payment
 
 urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -24,4 +25,6 @@ urlpatterns = [
     path('get_available_teams/', get_available_teams, name='get_available_teams'),
     path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('get_statistics/', get_statistics, name='get_stats'),
+    path('payment/begin/', payment.begin_transaction, name='pay_init'),
+    path('payment/callback/', payment.callback, name='pay_callback'),
 ]

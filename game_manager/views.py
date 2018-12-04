@@ -1,11 +1,8 @@
 import random
-from time import time
 from datetime import datetime
 
 from django.urls import reverse
 from django.http import HttpResponse
-from rest_framework.status import *
-from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from django.contrib.sites.shortcuts import get_current_site
