@@ -26,7 +26,6 @@ class Command(BaseCommand):
         server_index = 1
         for i, game in enumerate(games):
             if i % 8 == 7:
-                input("Waiting for input... ")
                 server_index = int(input("Server number? [9/10] "))
                 server_index -= 8
             print('RUNNING {}: {} vs {}'.format(game.pk, game.get_request_sender_team().name,
