@@ -25,6 +25,15 @@ def final_code_required(view):
     return wraps(view)(decorator)
 
 
+def qualified_team_required(view):
+    def decorator(request, *args, **kwargs):
+        if not request.user.team.qualified:
+            return Response({'message': 'تیم شما برای مرحله نهایی انتخاب نشده.'}, status=HTTP_403_FORBIDDEN)
+        return view(request, *args, **kwargs)
+
+    return wraps(view)(decorator)
+
+
 def check_registration_deadline(view):
     def decorator(request, *args, **kwargs):
         if not settings.REGISTRATION_OPEN:

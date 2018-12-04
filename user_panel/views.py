@@ -239,3 +239,11 @@ def get_available_teams(request):
     for team in Team.objects.filter(uploaded_codes__is_final=True).order_by('name'):
         teams.append({'id': team.pk, 'name': team.name})
     return Response(teams)
+
+
+@api_view(['POST'])
+@qualified_team_required
+def request_dorm(request):
+    request.user.wants_dorm = True
+    request.user.save()
+    return Response({'message': 'درخواست خوابگاه ثبت شد.'})

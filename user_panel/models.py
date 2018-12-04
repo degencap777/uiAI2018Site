@@ -65,6 +65,7 @@ class User(AbstractUser):
     phone = models.CharField(max_length=16)
     institute = models.CharField(max_length=64)
     team = models.ForeignKey('Team', on_delete=models.DO_NOTHING, related_name='members', blank=True, null=True)
+    wants_dorm = models.BooleanField(default=False)
 
     objects = UserManager()
     USERNAME_FIELD = 'email'

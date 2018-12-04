@@ -27,4 +27,5 @@ urlpatterns = [
     path('get_statistics/', get_statistics, name='get_stats'),
     path('payment/begin/', payment.begin_transaction, name='pay_init'),
     path('payment/callback/', payment.callback, name='pay_callback'),
+    path('user/request_dorm/', )
 ]
