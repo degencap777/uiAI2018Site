@@ -9,4 +9,5 @@ urlpatterns = [
     path('callback/', views.callback_update_game_status, name='callback_game_status'),
     path('info/', views.get_game_info, name='get_game_info'),
     path('log/', views.get_game_log, name='get_game_log'),
+    path('qualifications/standings/', views.get_qualification_standings, name='qualifications_standings'),
 ]
