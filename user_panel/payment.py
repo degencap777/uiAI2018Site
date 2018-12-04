@@ -72,12 +72,10 @@ def callback(request):
             response = verify_request.json()
             if response['status'] == 1:
                 team.payment_amount = response['amount']
-                team.payment_message = 'پرداخت با موفقیت انجام شد.' + \
-                                       ' (شماره فاکتور: {} و کد رهگیری: {})'.format(team.factor_number,
-                                                                                    team.trace_number)
+                team.payment_message = 'پرداخت با موفقیت انجام شد.'
                 team.payment_verified = True
                 team.save()
-                return render(request, 'payment_done.html', {'message': team.payment_message})
+                return redirect(reverse('dashboard'))
             else:
                 return render(request, 'payment_done.html', {'error': True, 'message': response['errorMessage']})
         except requests.exceptions.RequestException as err:
