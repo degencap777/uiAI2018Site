@@ -84,6 +84,7 @@ class User(AbstractUser):
             'phone': self.phone,
             'sent_invitations': [invitation.get_dict() for invitation in self.sent_invitations.all()],
             'received_invitations': [invitation.get_dict() for invitation in self.received_invitations.all()],
+            'wants_dorm': self.wants_dorm,
         }
 
 
