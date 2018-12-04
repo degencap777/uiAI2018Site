@@ -129,6 +129,13 @@ class Team(models.Model):
             'received_game_requests': [r.get_dict() for r in self.received_game_requests.filter(is_hidden=False)],
             'sent_game_requests': [r.get_dict() for r in self.sent_game_requests.filter(is_hidden=False)],
             'games': [g.get_dict() for g in self.get_games()],
+            'qualified': self.qualified,
+            'payment': {
+                'verified': self.payment_verified,
+                'factor_number': self.factor_number,
+                'trace_number': self.trace_number,
+                'message': self.payment_message,
+            }
         }
 
 
