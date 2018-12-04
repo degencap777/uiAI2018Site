@@ -1,6 +1,7 @@
 import requests
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 
 from uiai2018_site.settings import PAYMENT_API_KEY, PAYMENT_AMOUNT, TEST_TEAM_PKS
@@ -46,6 +47,7 @@ def begin_transaction(request):
         return Response({'message': 'خطا در اتصال به درگاه پرداخت.'}, status=HTTP_502_BAD_GATEWAY)
 
 
+@csrf_exempt
 def callback(request):
     if request.method == 'POST':
         status = request.data['status']
