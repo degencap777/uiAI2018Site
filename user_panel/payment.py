@@ -50,13 +50,13 @@ def begin_transaction(request):
 @csrf_exempt
 def callback(request):
     if request.method == 'POST':
-        status = request.data['status']
+        status = request.POST['status']
         if status == 0:
-            return render(request, 'payment_done.html', {'error': True, 'message': request.data['message']})
-        transaction_number = request.data['transId']
-        factor_number = request.data['factorNumber']
-        card_number = request.data['cardNumber']
-        trace_number = request.data['traceNumber']
+            return render(request, 'payment_done.html', {'error': True, 'message': request.POST['message']})
+        transaction_number = request.POST['transId']
+        factor_number = request.POST['factorNumber']
+        card_number = request.POST['cardNumber']
+        trace_number = request.POST['traceNumber']
         team = Team.objects.get(factor_number=factor_number)
         if team.payment_verified or team.transaction_id2 is not None:
             message = 'پرداخت شما تایید شده'
