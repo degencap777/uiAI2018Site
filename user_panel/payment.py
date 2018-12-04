@@ -16,7 +16,7 @@ def begin_transaction(request):
     factor_number = 'UIAI2018-{}'.format(team.pk)
     data = {
         'api': PAYMENT_API_KEY,
-        'amount': PAYMENT_AMOUNT if request.user.team not in TEST_TEAM_PKS else 1000,
+        'amount': PAYMENT_AMOUNT if team.pk not in TEST_TEAM_PKS else 1000,
         'redirect': 'http://acm.ui.ac.ir/uiai2018/api/payment/callback/',
         'mobile': request.user.phone,
         'factor_number': factor_number,
