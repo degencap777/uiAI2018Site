@@ -33,7 +33,8 @@ def begin_transaction(request):
             return Response({
                 'message': 'لطفا پرداخت را در صفحه درگاه تکمیل کنید.',
                 'transaction_id': response['transId'],
-                'factor_number': factor_number
+                'factor_number': factor_number,
+                'redirect_url': 'https://pay.ir/payment/gateway/{}'.format(response['transId']),
             }, status=HTTP_200_OK)
         else:
             team.payment_message = 'خطای {}: {}'.format(response['errorCode'], response['errorMessage'])
