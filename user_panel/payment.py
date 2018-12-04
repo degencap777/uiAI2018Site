@@ -20,7 +20,7 @@ def begin_transaction(request):
         'amount': PAYMENT_AMOUNT if team.pk not in TEST_TEAM_PKS else 1000,
         'redirect': 'http://acm.ui.ac.ir/uiai2018/api/payment/callback/',
         'mobile': request.user.phone,
-        'factor_number': factor_number,
+        'factorNumber': factor_number,
         'description': 'ثبت‌نام در دومین دوره مسابقات چالش هوش مصنوعی دانشگاه اصفهان',
     }
     try:
