@@ -122,3 +122,47 @@ def get_game_log(request):
     with open(game.log_file.path, 'r') as lf:
         log_text = lf.read()
     return HttpResponse(log_text)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_qualification_standings(request):
+    teams = Team.objects.filter(qualified=True)
+    standings = []
+    for team in teams:
+        team_games = team.get_games().filter(game_type=Game.QUALIFICATION, status=Game.FINISHED)
+        win, draw, lose = 0, 0, 0
+        goals_scored, goals_conceded = 0, 0
+        for game in team_games:
+            if team.name == game.logged_team1_name:
+                if game.logged_team1_goals > game.logged_team2_goals:
+                    win += 1
+                elif game.logged_team1_goals < game.logged_team2_goals:
+                    lose += 1
+                else:
+                    draw += 1
+                goals_scored += game.logged_team1_goals
+                goals_conceded += game.logged_team2_goals
+            elif team.name == game.logged_team2_name:
+                if game.logged_team1_goals > game.logged_team2_goals:
+                    lose += 1
+                elif game.logged_team1_goals < game.logged_team2_goals:
+                    win += 1
+                else:
+                    draw += 1
+                goals_scored += game.logged_team2_goals
+                goals_conceded += game.logged_team1_goals
+        team_row = {
+            'name': team.name,
+            'games_played': win + draw + lose,
+            'win': win,
+            'draw': draw,
+            'lose': lose,
+            'goals_scored': goals_scored,
+            'goals_conceded': goals_conceded,
+            'goal_difference': goals_scored - goals_conceded,
+            'points': win * 3 + draw,
+        }
+        standings.append(team_row)
+    standings = sorted(standings, key=lambda t: (t['points'], t['goal_difference']), reverse=True)
+    return Response({'standings': standings})
