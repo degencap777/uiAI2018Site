@@ -18,8 +18,8 @@ class Command(BaseCommand):
         i1 = int(input("Enter team index: "))
         t1 = Team.objects.get(pk=i1)
         for i2 in range(0, len(teams)):
-            if t1 != t1:
-                t2 = teams[i2]
+            t2 = teams[i2]
+            if t1 != t2:
                 i += 1
                 print('{}: {} vs {}'.format(i, t1.name, t2.name))
                 req = GameRequest.objects.create(sender=t1, receiver=t2, is_hidden=True)
