@@ -43,7 +43,7 @@ def begin_transaction(request):
             team.factor_number = factor_number
             team.payment_message = 'درخواست پرداخت با موفقیت ارسال شد. لطفا در صفحه درگاه، پرداخت را تکمیل کنید.'
             if discount_percent > 0:
-                team.payment_message += ' (کد تخفیف {} درصد: {})'.format(discount_code, discount_percent)
+                team.payment_message += ' (کد تخفیف {} درصد: {})'.format(discount_percent, discount_code)
             team.save()
             return Response({
                 'message': team.payment_message,
