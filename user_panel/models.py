@@ -235,3 +235,12 @@ class Code(models.Model):
         self.compile_status_text = r.json()['message']
         self.save()
         return self.compilation_status
+
+
+class DiscountCode(models.Model):
+    code = models.CharField(max_length=16, primary_key=True)
+    discount_percent = models.IntegerField(default=0)
+    team_used = models.OneToOneField(Team, on_delete=models.DO_NOTHING, null=True, blank=True)
+
+    def __str__(self):
+        return '{}%: {}'.format(self.discount_percent, self.code)

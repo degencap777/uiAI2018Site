@@ -6,18 +6,30 @@ from rest_framework.decorators import api_view
 
 from uiai2018_site.settings import PAYMENT_API_KEY, PAYMENT_AMOUNT, TEST_TEAM_PKS
 from user_panel.decorators import *
-from user_panel.models import Team
+from user_panel.models import *
 
 
 @api_view(['POST'])
 @team_required
 @final_code_required
 def begin_transaction(request):
+    discount_code = request.data['discount_code']
+    discount_percent = 0
+    if discount_code:
+        try:
+            discount = DiscountCode.objects.get(code=discount_code)
+            if discount.team_used is not None:
+                return Response({'این کد تخفیف قبلاً استفاده شده.'}, status=HTTP_403_FORBIDDEN)
+            discount_percent = discount.discount_percent
+        except DiscountCode.DoesNotExist:
+            return Response({'کد تخفیف مورد نظر موجود نمی‌باشد.'}, status=HTTP_404_NOT_FOUND)
     team = request.user.team
     factor_number = 'UIAI2018-{}'.format(team.pk)
+    if discount_percent > 0:
+        factor_number += '-{}'.format(discount_code)
     data = {
         'api': PAYMENT_API_KEY,
-        'amount': PAYMENT_AMOUNT if team.pk not in TEST_TEAM_PKS else 1000,
+        'amount': int(PAYMENT_AMOUNT * (100 - discount_percent) // 100) if team.pk not in TEST_TEAM_PKS else 1000,
         'redirect': 'http://acm.ui.ac.ir/uiai2018/api/payment/callback/',
         'mobile': request.user.phone,
         'factorNumber': factor_number,
@@ -30,9 +42,11 @@ def begin_transaction(request):
             team.transaction_id1 = response['transId']
             team.factor_number = factor_number
             team.payment_message = 'درخواست پرداخت با موفقیت ارسال شد. لطفا در صفحه درگاه، پرداخت را تکمیل کنید.'
+            if discount_percent > 0:
+                team.payment_message += ' (کد تخفیف {} درصد: {})'.format(discount_code, discount_percent)
             team.save()
             return Response({
-                'message': 'لطفا پرداخت را در صفحه درگاه تکمیل کنید.',
+                'message': team.payment_message,
                 'transaction_id': response['transId'],
                 'factor_number': factor_number,
                 'redirect_url': 'https://pay.ir/payment/gateway/{}'.format(response['transId']),
@@ -75,6 +89,11 @@ def callback(request):
                 team.payment_message = 'پرداخت با موفقیت انجام شد.'
                 team.payment_verified = True
                 team.save()
+                if factor_number.count('-') == 2:
+                    discount_code = factor_number.split('-')[-1]
+                    discount = DiscountCode.objects.get(code=discount_code)
+                    discount.team_used = team
+                    discount.save()
                 return redirect(reverse('dashboard'))
             else:
                 return render(request, 'payment_done.html', {'error': True, 'message': response['errorMessage']})
