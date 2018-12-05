@@ -7,6 +7,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         reqs = GameRequest.objects.filter(is_hidden=True)
-        if input("Delete {} requests? [y/n] ").lower() == 'y':
+        if input("Delete {} requests? [y/n] ".format(reqs.count())).lower() == 'y':
             reqs.delete()
             print("Deleted")
