@@ -14,4 +14,4 @@ class Command(BaseCommand):
         }
         response = requests.post('https://pay.ir/payment/verify', data=data)
         print('Response Code: {}'.format(response.status_code))
-        print('Response Data: {}'.format(response.json().decode('utf-8')))
+        print('Response Data: {}'.format(response.json()))
