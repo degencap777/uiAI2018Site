@@ -17,13 +17,12 @@ class Command(BaseCommand):
         if paid_only:
             teams = teams.filter(payment_verified=True)
         teams = sorted(teams, key=lambda t: t.name)
-        print("TEAM NAME,FIRST NAME (1),LAST NAME (1),EMAIL (1),PHONE (1),INSTITUTE (1)," +
+        print("TEAM NAME,PAYMENT VERIFIED,FIRST NAME (1),LAST NAME (1),EMAIL (1),PHONE (1),INSTITUTE (1)," +
               "FIRST NAME (2),LAST NAME (2),EMAIL (2),PHONE (2), INSTITUTE (2)," +
-              "FIRST NAME (3),LAST NAME (3),EMAIL (3),PHONE (3), INSTITUTE (3),PAYMENT VERIFIED?")
+              "FIRST NAME (3),LAST NAME (3),EMAIL (3),PHONE (3), INSTITUTE (3)")
         for team in teams:
             if team.pk not in TEST_TEAM_PKS:
-                s = team.name
+                s = "{},{}".format(team.name, "YES" if team.payment_verified else "NO")
                 for m in team.members.all()[:3]:
                     s += ",{},{},{},{},{}".format(m.first_name, m.last_name, m.email, m.phone, m.institute)
-                s += ",{}".format("YES" if team.payment_verified else "NO")
                 print(s)
