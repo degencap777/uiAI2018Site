@@ -1,7 +1,7 @@
 {
   "main.css": "/uiai2018/static/main/static/static/css/main.51114f23.chunk.css",
-  "main.js": "/uiai2018/static/main/static/static/js/main.af621453.chunk.js",
-  "main.js.map": "/uiai2018/static/main/static/static/js/main.af621453.chunk.js.map",
+  "main.js": "/uiai2018/static/main/static/static/js/main.74fd8a71.chunk.js",
+  "main.js.map": "/uiai2018/static/main/static/static/js/main.74fd8a71.chunk.js.map",
   "static/css/1.557f5063.chunk.css": "/uiai2018/static/main/static/static/css/1.557f5063.chunk.css",
   "static/js/1.8421b21b.chunk.js": "/uiai2018/static/main/static/static/js/1.8421b21b.chunk.js",
   "static/js/1.8421b21b.chunk.js.map": "/uiai2018/static/main/static/static/js/1.8421b21b.chunk.js.map",
@@ -59,9 +59,9 @@
   "static/media/bazisazi.jpg": "/uiai2018/static/main/static/static/media/bazisazi.48fbaa5e.jpg",
   "static/media/bazar.png": "/uiai2018/static/main/static/static/media/bazar.01da5dc0.png",
   "static/media/font-face.css": "/uiai2018/static/main/static/static/media/Vazir-Medium.11ef813d.ttf",
-  "static/css/main.51114f23.chunk.css.map": "/uiai2018/static/main/static/static/css/main.51114f23.chunk.css.map",
   "static/css/1.557f5063.chunk.css.map": "/uiai2018/static/main/static/static/css/1.557f5063.chunk.css.map",
+  "static/css/main.51114f23.chunk.css.map": "/uiai2018/static/main/static/static/css/main.51114f23.chunk.css.map",
   "index.html": "/uiai2018/static/main/static/index.html",
-  "precache-manifest.2849a467e3b967b5b180738befe7b88e.js": "/uiai2018/static/main/static/precache-manifest.2849a467e3b967b5b180738befe7b88e.js",
+  "precache-manifest.6201fe23f742c9ae4670a2443dcd118e.js": "/uiai2018/static/main/static/precache-manifest.6201fe23f742c9ae4670a2443dcd118e.js",
   "service-worker.js": "/uiai2018/static/main/static/service-worker.js"
 }

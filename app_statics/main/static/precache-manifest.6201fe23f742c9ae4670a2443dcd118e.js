@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/uiai2018/static/main/static/static/media/adelnia.dfc3789a.jpg"
   },
   {
-    "revision": "af621453edc7f9bb8910",
+    "revision": "74fd8a71821e24a0f135",
     "url": "/uiai2018/static/main/static/static/css/main.51114f23.chunk.css"
   },
   {
@@ -160,8 +160,8 @@ self.__precacheManifest = [
     "url": "/uiai2018/static/main/static/static/media/stf21.90b0d97e.jpg"
   },
   {
-    "revision": "af621453edc7f9bb8910",
-    "url": "/uiai2018/static/main/static/static/js/main.af621453.chunk.js"
+    "revision": "74fd8a71821e24a0f135",
+    "url": "/uiai2018/static/main/static/static/js/main.74fd8a71.chunk.js"
   },
   {
     "revision": "506a63984186e5d36fddf6baab453f8d",
@@ -280,12 +280,12 @@ self.__precacheManifest = [
     "url": "/uiai2018/static/main/static/static/media/Vazir.3bb6491e.ttf"
   },
   {
-    "revision": "b358a632638ddc12101a6dafd633b625",
-    "url": "/uiai2018/static/main/static/static/media/Vazir-Bold.b358a632.eot"
-  },
-  {
     "revision": "d00f44216fda6aef5873d083017fdd15",
     "url": "/uiai2018/static/main/static/static/media/Vazir-Bold.d00f4421.ttf"
+  },
+  {
+    "revision": "b358a632638ddc12101a6dafd633b625",
+    "url": "/uiai2018/static/main/static/static/media/Vazir-Bold.b358a632.eot"
   },
   {
     "revision": "51d16771c8bf9759531066861015353f",
@@ -296,12 +296,12 @@ self.__precacheManifest = [
     "url": "/uiai2018/static/main/static/static/media/Vazir-Thin.5a7ca35b.ttf"
   },
   {
-    "revision": "dec57885836e1d78b278784703bfc3aa",
-    "url": "/uiai2018/static/main/static/static/media/Vazir-Black.dec57885.ttf"
-  },
-  {
     "revision": "d45d679ecbbf3e85f6fe924a3349611e",
     "url": "/uiai2018/static/main/static/static/media/Vazir-Black.d45d679e.eot"
+  },
+  {
+    "revision": "dec57885836e1d78b278784703bfc3aa",
+    "url": "/uiai2018/static/main/static/static/media/Vazir-Black.dec57885.ttf"
   },
   {
     "revision": "81fd1bcee68b84a31baa21aeb277d7e8",
@@ -320,7 +320,7 @@ self.__precacheManifest = [
     "url": "/uiai2018/static/main/static/static/css/1.557f5063.chunk.css"
   },
   {
-    "revision": "8f356a616b20473d4e6bb10e090cb8d5",
+    "revision": "2434491e924547b69f0c91ba6875084b",
     "url": "/uiai2018/static/main/static/index.html"
   }
 ];
