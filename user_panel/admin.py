@@ -22,7 +22,14 @@ class CodeAdmin(admin.ModelAdmin):
     list_filter = ['compilation_status', 'is_final']
 
 
+class DiscountAdmin(admin.ModelAdmin):
+    list_display = ['code', 'discount_percent', 'team_used']
+    list_filter = ['discount_percent']
+    search_fields = ['code', 'discount_percent']
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Team, TeamAdmin)
 admin.site.register(Settings)
 admin.site.register(Code, CodeAdmin)
+admin.site.register(DiscountCode, DiscountAdmin)
