@@ -19,7 +19,11 @@ class Command(BaseCommand):
         t1 = Team.objects.get(pk=i1)
         for i2 in range(0, len(teams)):
             t2 = teams[i2]
-            if t1 != t2:
+            if t1 != t2 \
+                    and Game.objects.filter(game_type=Game.QUALIFICATION, request__receiver__name=t2.name,
+                                            request__sender__name=t1.name).count() == 0 \
+                    and Game.objects.filter(game_type=Game.QUALIFICATION, request__receiver__name=t1.name,
+                                            request__sender__name=t2.name).count() == 0:
                 i += 1
                 print('{}: {} vs {}'.format(i, t1.name, t2.name))
                 req = GameRequest.objects.create(sender=t1, receiver=t2, is_hidden=True)
