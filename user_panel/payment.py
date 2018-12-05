@@ -50,7 +50,8 @@ def begin_transaction(request):
                 'transaction_id': response['transId'],
                 'factor_number': factor_number,
                 'redirect_url': 'https://pay.ir/payment/gateway/{}'.format(response['transId']),
-            }, status=HTTP_200_OK)
+                'discount_percent': discount_percent,
+            })
         else:
             team.payment_message = 'خطای {}: {}'.format(response['errorCode'], response['errorMessage'])
             team.save()
