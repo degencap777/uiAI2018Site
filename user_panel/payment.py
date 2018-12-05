@@ -19,7 +19,7 @@ def begin_transaction(request):
         try:
             discount = DiscountCode.objects.get(code=discount_code)
             if discount.team_used is not None:
-                return Response({'این کد تخفیف قبلاً استفاده شده.'}, status=HTTP_403_FORBIDDEN)
+                return Response({'message': 'این کد تخفیف قبلاً استفاده شده.'}, status=HTTP_403_FORBIDDEN)
             discount_percent = discount.discount_percent
         except DiscountCode.DoesNotExist:
             return Response({'کد تخفیف مورد نظر موجود نمی‌باشد.'}, status=HTTP_404_NOT_FOUND)
