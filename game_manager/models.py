@@ -92,6 +92,8 @@ class Game(models.Model):
         }
 
     def get_result_string(self):
+        if not self.logged_team1_name:
+            return '-'
         return '{} {} - {} {}'.format(self.logged_team1_name, self.logged_team1_goals,
                                       self.logged_team2_name, self.logged_team2_goals)
 
