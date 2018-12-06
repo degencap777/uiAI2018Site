@@ -102,3 +102,8 @@ class Game(models.Model):
 
     def get_request_receiver_team(self):
         return self.request.receiver
+
+    def get_log_url(self):
+        if self.log_file:
+            return 'acm.ui.ac.ir/uiai2018/log_player/?game_id={}&token={}'.format(self.pk, self.token)
+        return '-'
