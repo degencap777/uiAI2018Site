@@ -7,8 +7,6 @@ class UserAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'english_full_name', 'email', 'phone', 'institute', 'team', 'wants_dorm']
     search_fields = ['first_name', 'last_name', 'email', 'phone', 'institute', 'team', 'english_full_name']
     list_filter = ['institute', 'team', 'wants_dorm']
-    fields = ['first_name', 'last_name', 'english_full_name', 'email', 'phone', 'institute', 'team',
-              'is_superuser', 'is_staff', 'is_active', 'date_joined', 'last_login', 'wants_dorm']
 
 
 class TeamAdmin(admin.ModelAdmin):
