@@ -49,7 +49,7 @@ class RequestAdmin(admin.ModelAdmin):
 
 class GameAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'get_request_sender_team', 'get_request_receiver_team', 'status', 'game_type',
-                    'get_result_string', 'get_log_link_html']
+                    'get_result_string', 'get_log_url']
     list_filter = ['status', 'game_type']
     actions = [start_games, set_status_playing, set_status_waiting, set_status_error]
 
