@@ -7,7 +7,7 @@ from user_panel.models import *
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        teams = Team.objects.filter(qualified=True, payment_verified=True)
+        teams = Team.objects.filter(qualified=True)
         teams = sorted(teams, key=lambda t: t.name)
         print("TEAM NAME,PAYMENT VERIFIED,FIRST NAME,LAST NAME,EMAIL,PHONE,INSTITUTE")
         for team in teams:
