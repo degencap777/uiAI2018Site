@@ -21,13 +21,11 @@ class Command(BaseCommand):
             id1, id2 = map(int, input().split())
             t1 = Team.objects.get(pk=id1)
             t2 = Team.objects.get(pk=id2)
-            name = input("Enter game name: ")
             req = GameRequest.objects.create(sender=t1, receiver=t2, status=GameRequest.ACCEPTED, is_hidden=True)
             game = Game.objects.create(
                 request=req,
                 token="FINALS-{}-{}".format(req.pk, random.randint(10000, 100000)),
                 game_type=Game.FINALS,
-                finals_game_name=name,
             )
             print("ADDED {}: {} vs {}".format(game.pk, game.get_request_sender_team().name,
                                               game.get_request_receiver_team().name))
