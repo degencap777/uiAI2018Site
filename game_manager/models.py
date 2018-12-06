@@ -64,9 +64,11 @@ class Game(models.Model):
     token = models.CharField(max_length=64)
     run_date = models.DateTimeField(blank=True, null=True)
     game_type = models.CharField(max_length=16, choices=TYPE_OPTIONS, default=FRIENDLY)
+    finals_game_name = models.CharField(max_length=64, null=True, blank=True)
 
     def __str__(self):
-        return 'GAME: {} vs {} - {}'.format(self.request.sender.name, self.request.receiver.name, self.status)
+        return '{}: {} vs {} - {}'.format(self.game_type, self.request.sender.name, self.request.receiver.name,
+                                          self.status)
 
     def get_log_base64(self):
         if not self.log_file:
@@ -86,6 +88,7 @@ class Game(models.Model):
             'run_date': self.run_date if self.run_date else self.request.date,
             'token': self.token,
             'type': self.get_game_type_display(),
+            'finals_game_name': self.finals_game_name,
         }
 
     def get_result_string(self):
