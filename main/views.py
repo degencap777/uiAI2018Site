@@ -7,3 +7,7 @@ def landing(request):
 
 def dashboard(request):
     return render(request, 'user_panel/templates/index.html')
+
+
+def tournament(request):
+    return render(request, 'main/templates/tournament_tree.html')
