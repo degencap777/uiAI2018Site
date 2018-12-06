@@ -15,7 +15,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         teams = Team.objects.filter(payment_verified=True)
         teams = sorted(teams, key=lambda t: t.pk)
-        print('{} TEAMS\nID\tNAME'.format(len(teams)), '\n'.join(('{}\t{}'.format(t.pk, t.name) for t in teams)))
+        print('{} TEAMS\nID\tNAME\n'.format(len(teams)), '\n'.join(('{}\t{}'.format(t.pk, t.name) for t in teams)))
         while True:
             print("Enter id1 id2")
             id1, id2 = map(int, input().split())
